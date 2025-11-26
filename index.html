@@ -18,7 +18,7 @@
         /* --- SMOOTH TRANSITIONS --- */
         body, h1, h2, h3, h4, p, a, span, div, button, nav, footer, .mountain-layer, input, textarea, details, summary { 
             font-family: 'Kantumruy Pro', sans-serif; 
-            transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, fill 1.5s ease, stroke 1.5s ease, opacity 1.5s ease;
+            transition: background-color 1.0s ease, color 1.0s ease, border-color 1.0s ease, fill 1.0s ease, stroke 1.0s ease, opacity 1.0s ease;
         }
         
         .brand-font { font-family: 'Rajdhani', sans-serif; }
@@ -28,7 +28,7 @@
         ::-webkit-scrollbar-track { background: #0f1c3f; }
         ::-webkit-scrollbar-thumb { background: #00ffc2; border-radius: 4px; }
 
-        /* --- GLOBAL BACKGROUND ANIMATION --- */
+        /* --- GLOBAL BACKGROUND --- */
         #global-bg {
             position: fixed;
             top: 0;
@@ -37,8 +37,9 @@
             height: 100%;
             z-index: -2;
             background-size: 400px; 
+            /* Animation removed as we will control opacity via scroll if needed, or keep generic movement */
             animation: moveMap 120s linear infinite;
-            transition: background-image 1.5s, background-color 1.5s;
+            transition: background-color 1.5s;
         }
 
         /* DARK MODE PATTERN (Night) */
@@ -56,14 +57,6 @@
         @keyframes moveMap {
             0% { background-position: 0 0; }
             100% { background-position: -400px 400px; }
-        }
-
-        .hero-overlay {
-            background: radial-gradient(circle at center, transparent 10%, #0f1c3f 100%);
-            transition: background 1.5s;
-        }
-        html:not(.dark) .hero-overlay {
-            background: radial-gradient(circle at center, transparent 10%, #f0fdfa 100%);
         }
 
         /* --- FIREFLIES (Night) & CLOUDS (Day) --- */
@@ -87,7 +80,7 @@
             opacity: 0;
             animation: fly 10s infinite ease-in-out;
         }
-        html:not(.dark) .firefly { display: none; } /* Hide in day */
+        html:not(.dark) .firefly { display: none; }
 
         @keyframes fly {
             0% { transform: translate(0, 0); opacity: 0; }
@@ -104,7 +97,7 @@
             opacity: 0;
             animation: floatCloud 25s infinite linear;
         }
-        html.dark .cloud { display: none; } /* Hide in night */
+        html.dark .cloud { display: none; }
 
         @keyframes floatCloud {
             0% { transform: translateX(-100%); opacity: 0; }
@@ -120,11 +113,10 @@
             left: 0;
             width: 100%;
             height: auto;
-            z-index: 1;
+            z-index: -1; /* Behind bike container */
             pointer-events: none;
             fill: #0f1c3f;
             opacity: 0.3;
-            /* Will be animated by JS on scroll */
             transition: transform 0.1s ease-out;
         }
         html:not(.dark) .mountain-bg {
@@ -132,18 +124,18 @@
             opacity: 0.1;
         }
 
-        /* --- RESPONSIVE MAP CONTAINER --- */
+        /* --- FIXED BIKE CONTAINER (SCROLLYTELLING) --- */
         .bike-container {
-            position: absolute;
+            position: fixed; /* Fixed position for scroll interaction */
             bottom: 0;
-            left: 50%; /* Center strictly */
+            left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 1600px; /* Prevent huge sizing on Ultra-wide screens */
+            max-width: 1600px;
             height: auto;
-            min-height: 35vh; /* Balanced height for mobile */
-            max-height: 60vh; /* Balanced height for desktop */
-            z-index: 20;
+            min-height: 40vh; 
+            max-height: 60vh;
+            z-index: 0; /* Visible behind content */
             display: flex;
             align-items: flex-end;
             justify-content: center;
@@ -160,21 +152,18 @@
         .svg-text {
             font-family: 'Kantumruy Pro', sans-serif;
             font-weight: 800;
-            font-size: 16px; /* Default size */
+            font-size: 16px;
             text-anchor: middle;
             fill: white;
             stroke: #0f1c3f;
-            stroke-width: 4px; /* Thinner outline */
+            stroke-width: 4px;
             paint-order: stroke;
             transition: fill 1s, stroke 1s, font-size 0.3s ease;
             cursor: pointer;
-            pointer-events: all; /* Make text clickable */
+            pointer-events: all;
         }
         
-        .svg-text:hover {
-            font-size: 20px;
-            fill: #00ffc2;
-        }
+        .svg-text:hover { font-size: 20px; fill: #00ffc2; }
         html:not(.dark) .svg-text:hover { fill: #0d9488; }
 
         html:not(.dark) .svg-text {
@@ -185,27 +174,12 @@
 
         .svg-text-highlight {
             fill: #00ffc2;
-            font-size: 22px; /* Smaller highlight */
+            font-size: 22px;
         }
-        html:not(.dark) .svg-text-highlight {
-            fill: #0d9488;
-        }
+        html:not(.dark) .svg-text-highlight { fill: #0d9488; }
         
-        /* Sun Clock Text */
-        .sun-clock-text {
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 800;
-            font-size: 10px; /* Smaller clock text */
-            text-anchor: middle;
-            fill: #0f1c3f;
-            stroke: none;
-        }
-        html.dark .sun-clock-text {
-            fill: #0f1c3f; /* Keep dark text for moon */
-        }
-
         .stop-point {
-            r: 6; /* Smaller dots (was 12) */
+            r: 6;
             stroke-width: 3;
             cursor: pointer;
             pointer-events: all;
@@ -214,12 +188,11 @@
         .stop-point:hover { r: 10; fill: #00ffc2; }
         html:not(.dark) .stop-point:hover { fill: #0d9488; }
 
-        /* --- RESPONSIVE SVG ADJUSTMENTS FOR MOBILE --- */
+        /* Responsive SVG Adjustments */
         @media (max-width: 768px) {
-            .svg-text { font-size: 32px; stroke-width: 6px; } /* Increase Font size on mobile relative to viewBox */
+            .svg-text { font-size: 32px; stroke-width: 6px; }
             .svg-text-highlight { font-size: 40px; }
-            .stop-point { r: 14; stroke-width: 5; } /* Bigger dots */
-            /* Adjust bike icon size via transform if needed, handled in foreignObject width */
+            .stop-point { r: 14; stroke-width: 5; }
         }
 
         /* --- TOOLTIP --- */
@@ -244,13 +217,13 @@
             color: #0f172a;
         }
 
-        /* --- GLASS CARDS & SCROLL REVEAL --- */
+        /* --- GLASS CARDS & REVEAL --- */
         .glass-card {
             background: rgba(15, 28, 63, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 255, 194, 0.1);
             transition: background 1.5s, border-color 1.5s, box-shadow 1.5s, transform 0.3s;
-            perspective: 1000px; /* For 3D Tilt */
+            perspective: 1000px;
         }
         html:not(.dark) .glass-card {
             background: rgba(255, 255, 255, 0.9);
@@ -258,7 +231,6 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.05);
         }
 
-        /* Reveal Animation Class */
         .reveal {
             opacity: 0;
             transform: translateY(50px);
@@ -274,16 +246,9 @@
         
         .hidden { display: none !important; }
         
-        /* FAQ & Accordion */
-        details > summary {
-            list-style: none;
-            cursor: pointer;
-        }
-        details > summary::-webkit-details-marker {
-            display: none;
-        }
+        details > summary { list-style: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
         
-        /* Floating Action Button */
         .fab {
             position: fixed;
             bottom: 30px;
@@ -338,18 +303,15 @@
 <body class="text-gray-800 dark:text-gray-200 antialiased selection:bg-teal-600 dark:selection:bg-shirt-green selection:text-white dark:selection:text-black transition-colors duration-1000">
 
     <div id="global-bg"></div>
-    <!-- Particle Container for Fireflies/Clouds -->
     <div id="particles-container"></div>
     
-    <!-- Mountain Background Layer (With Parallax ID) -->
+    <!-- Parallax Mountain Background -->
     <svg id="parallax-mountain" class="mountain-bg" viewBox="0 0 1440 320" preserveAspectRatio="none">
         <path fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
     </svg>
 
-    <!-- Tooltip Element -->
     <div id="map-tooltip"></div>
 
-    <!-- FLOATING ACTION BUTTON -->
     <a href="https://t.me/SophatCHY" target="_blank" class="fab w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg transition duration-300">
         <i class="fab fa-telegram-plane text-2xl"></i>
     </a>
@@ -362,7 +324,6 @@
                     Sophat <span class="text-teal-600 dark:text-shirt-green">CHY</span>
                 </a>
                 
-                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-6">
                     <div class="flex space-x-8 text-base font-bold tracking-wide">
                         <a href="#mission" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
@@ -382,13 +343,11 @@
                     </div>
                 </div>
 
-                <!-- Mobile Menu Button -->
                 <button id="mobile-menu-btn" class="md:hidden text-2xl text-gray-700 dark:text-white">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
 
-            <!-- Mobile Menu Content (Hidden by default) -->
             <div id="mobile-menu" class="hidden md:hidden mt-4 bg-gray-100 dark:bg-gray-800 rounded-xl p-4 shadow-lg transition-all duration-300">
                 <div class="flex flex-col space-y-4 text-center font-bold">
                     <a href="#mission" class="text-gray-700 dark:text-gray-200 hover:text-teal-600" onclick="document.getElementById('mobile-menu').classList.add('hidden')"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
@@ -411,12 +370,9 @@
     </nav>
 
     <!-- HERO SECTION -->
-    <header class="relative h-screen flex flex-col items-center justify-center overflow-hidden pb-32">
-        <!-- Digital Overlay -->
-        <div class="absolute inset-0 hero-overlay pointer-events-none"></div>
-
-        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto -mt-10 reveal">
-            <!-- Badge -->
+    <header class="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-64">
+        <!-- Content (Higher Z-index to float above bike map) -->
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto reveal">
             <div class="inline-block bg-teal-50 dark:bg-gradient-to-r dark:from-teal-600 dark:to-shirt-green text-teal-800 dark:text-black px-6 py-2 font-bold text-sm tracking-wide mb-6 rounded-full shadow-lg border border-teal-200 dark:border-teal-400">
                 <span class="lang-km">ដំណើរកម្សាន្តទៅកាន់បេះដូងនៃជួរភ្នំក្រវាញ</span>
                 <span class="lang-en hidden">A Journey into the Heart of the Cardamom Mountains</span>
@@ -452,7 +408,7 @@
                 </div>
             </div>
             
-            <!-- Weather Badge (Mockup) -->
+            <!-- Weather Badge -->
             <div class="flex justify-center mb-8">
                 <div class="flex items-center gap-2 px-4 py-2 bg-white/30 dark:bg-black/30 backdrop-blur rounded-full text-sm font-bold text-gray-800 dark:text-white">
                     <i class="fas fa-cloud-sun text-teal-600 dark:text-shirt-green"></i>
@@ -467,94 +423,66 @@
                 </div>
             </div>
         </div>
-
-        <!-- RESPONSIVE MOTORBIKE ANIMATION CONTAINER -->
-        <div class="bike-container">
-            <!-- Used xMidYMax meet to keep map at the bottom and center -->
-            <svg class="svg-path-container" viewBox="0 0 1200 450" preserveAspectRatio="xMidYMax meet">
-                <defs>
-                    <!-- Smoother "Snake" Road with Veal Veng Lowered (Fixed: Removed comments inside path data) -->
-                    <path id="responsiveRidePath" d="M50,380 L250,380 C280,380 290,260 300,260 C350,320 350,180 400,240 S450,280 500,220 C550,160 550,280 600,240 S650,180 700,260 C750,320 750,240 800,300 S850,440 900,380 C950,340 1000,380 1150,380" />
-                    <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                
-                <!-- Track Lines (Stroke width 4) -->
-                <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="4" fill="none" class="opacity-30 dark:opacity-100 transition-opacity duration-1000" />
-                
-                <!-- Day Track (Teal) -->
-                <use xlink:href="#responsiveRidePath" stroke="#0f766e" stroke-width="4" fill="none" stroke-dasharray="20,15" class="dark:hidden" />
-                
-                <!-- Night Track (Neon) -->
-                <use xlink:href="#responsiveRidePath" stroke="#00ffc2" stroke-width="4" fill="none" stroke-dasharray="20,15" class="hidden dark:block">
-                    <animate attributeName="stroke" values="#00ffc2;#00ffc2;#ff0055;#ff0055;#00ffc2" keyTimes="0; 0.6; 0.65; 0.95; 1" dur="20s" repeatCount="indefinite" />
-                </use>
-                
-                <!-- Stops with Interactive Data Attributes -->
-                <g class="stop-group">
-                    <circle cx="50" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ចំណុចចាប់ផ្តើមនៃការធ្វើដំណើរ" />
-                    <text x="50" y="420" class="svg-text" data-info="រាជធានីភ្នំពេញ">ភ្នំពេញ</text>
-                    
-                    <circle cx="300" cy="260" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ចំណតទី១: សម្រាកញ៉ាំអាហារ" />
-                    <text x="300" y="295" class="svg-text" data-info="ខេត្តពោធិ៍សាត់">ពោធិ៍សាត</text>
-                    
-                    <!-- Veal Veng Position (Y=220) -->
-                    <circle cx="500" cy="220" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ទេសភាពផ្លូវភ្នំ ១៥០០" />
-                    <text x="500" y="200" class="svg-text" data-info="ស្រុកវាលវែង">វាលវែង</text>
-                    
-                    <circle cx="700" cy="260" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" data-info="បេះដូងនៃជួរភ្នំក្រវាញ (គោលដៅសំខាន់)" />
-                    <text x="700" y="300" class="svg-text svg-text-highlight" data-info="សហគមន៍ទេសចរណ៍អូសោម">អូសោម</text>
-                    
-                    <circle cx="900" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ច្រកចេញទៅកាន់សមុទ្រ" />
-                    <text x="900" y="420" class="svg-text" data-info="ខេត្តកោះកុង">កោះកុង</text>
-                    
-                    <circle cx="1150" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="បញ្ចប់ការធ្វើដំណើរ" />
-                    <text x="1150" y="420" class="svg-text" data-info="ត្រឡប់មកភ្នំពេញវិញ">ភ្នំពេញ</text>
-                </g>
-
-                <!-- THE SUN/MOON + CLOCK -->
-                <g>
-                    <!-- Sun/Moon Circle -->
-                    <circle r="25" filter="url(#glow)">
-                        <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
-                            <mpath xlink:href="#responsiveRidePath" />
-                        </animateMotion>
-                        <!-- Color Animation Cycle -->
-                        <animate attributeName="fill" 
-                                 values="#fbbf24; #fbbf24; #ef4444; #e2e8f0; #e2e8f0; #fbbf24; #fbbf24" 
-                                 keyTimes="0; 0.4; 0.5; 0.55; 0.8; 0.85; 1" 
-                                 dur="20s" repeatCount="indefinite" />
-                        <animateTransform attributeName="transform" type="translate" from="0 -60" to="0 -60" dur="20s" repeatCount="indefinite" />
-                    </circle>
-                    
-                    <!-- Analog Clock Face Inside Sun -->
-                    <g transform="translate(0, -60)">
-                         <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
-                            <mpath xlink:href="#responsiveRidePath" />
-                        </animateMotion>
-                        <circle cx="0" cy="0" r="10" fill="rgba(255,255,255,0.9)" stroke="#0f1c3f" stroke-width="1" />
-                        <line id="hour-hand" x1="0" y1="0" x2="0" y2="-5" stroke="#0f1c3f" stroke-width="2" stroke-linecap="round" />
-                        <line id="minute-hand" x1="0" y1="0" x2="0" y2="-8" stroke="#d32e26" stroke-width="1" stroke-linecap="round" />
-                        <circle cx="0" cy="0" r="1" fill="#0f1c3f" />
-                    </g>
-                </g>
-
-                <!-- The Rider -->
-                <g>
-                    <foreignObject width="40" height="40" x="-20" y="-20">
-                        <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%; color: white;">
-                            <i class="fas fa-motorcycle" style="font-size:24px; color: #0f172a; filter: drop-shadow(0 0 2px white);"></i>
-                        </div>
-                    </foreignObject>
-                    <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
-                        <mpath xlink:href="#responsiveRidePath" />
-                    </animateMotion>
-                </g>
-            </svg>
-        </div>
     </header>
 
+    <!-- FIXED SCROLL-DRIVEN BIKE CONTAINER -->
+    <div class="bike-container">
+        <svg class="svg-path-container" viewBox="0 0 1200 450" preserveAspectRatio="xMidYMax meet">
+            <defs>
+                <!-- Path definition -->
+                <path id="responsiveRidePath" d="M50,380 L250,380 C280,380 290,260 300,260 C350,320 350,180 400,240 S450,280 500,220 C550,160 550,280 600,240 S650,180 700,260 C750,320 750,240 800,300 S850,440 900,380 C950,340 1000,380 1150,380" />
+                <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            
+            <!-- Static Track Lines -->
+            <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="4" fill="none" class="opacity-30 dark:opacity-100 transition-opacity duration-1000" />
+            <use xlink:href="#responsiveRidePath" stroke="#0f766e" stroke-width="4" fill="none" stroke-dasharray="20,15" class="dark:hidden" />
+            <use xlink:href="#responsiveRidePath" stroke="#00ffc2" stroke-width="4" fill="none" stroke-dasharray="20,15" class="hidden dark:block" />
+            
+            <!-- Stops -->
+            <g class="stop-group">
+                <circle cx="50" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ចំណុចចាប់ផ្តើមនៃការធ្វើដំណើរ" />
+                <text x="50" y="420" class="svg-text" data-info="រាជធានីភ្នំពេញ">ភ្នំពេញ</text>
+                
+                <circle cx="300" cy="260" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ចំណតទី១: សម្រាកញ៉ាំអាហារ" />
+                <text x="300" y="295" class="svg-text" data-info="ខេត្តពោធិ៍សាត់">ពោធិ៍សាត</text>
+                
+                <circle cx="500" cy="220" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ទេសភាពផ្លូវភ្នំ ១៥០០" />
+                <text x="500" y="200" class="svg-text" data-info="ស្រុកវាលវែង">វាលវែង</text>
+                
+                <circle cx="700" cy="260" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" data-info="បេះដូងនៃជួរភ្នំក្រវាញ (គោលដៅសំខាន់)" />
+                <text x="700" y="300" class="svg-text svg-text-highlight" data-info="សហគមន៍ទេសចរណ៍អូសោម">អូសោម</text>
+                
+                <circle cx="900" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ច្រកចេញទៅកាន់សមុទ្រ" />
+                <text x="900" y="420" class="svg-text" data-info="ខេត្តកោះកុង">កោះកុង</text>
+                
+                <circle cx="1150" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="បញ្ចប់ការធ្វើដំណើរ" />
+                <text x="1150" y="420" class="svg-text" data-info="ត្រឡប់មកភ្នំពេញវិញ">ភ្នំពេញ</text>
+            </g>
+
+            <!-- Animated Groups (Controlled by JS Scroll) -->
+            <g id="sun-group">
+                <circle r="25" fill="#fbbf24" filter="url(#glow)" />
+                <!-- Analog Clock -->
+                <circle cx="0" cy="0" r="10" fill="rgba(255,255,255,0.9)" stroke="#0f1c3f" stroke-width="1" />
+                <line id="hour-hand" x1="0" y1="0" x2="0" y2="-5" stroke="#0f1c3f" stroke-width="2" stroke-linecap="round" />
+                <line id="minute-hand" x1="0" y1="0" x2="0" y2="-8" stroke="#d32e26" stroke-width="1" stroke-linecap="round" />
+                <circle cx="0" cy="0" r="1" fill="#0f1c3f" />
+            </g>
+
+            <g id="bike-group">
+                <foreignObject width="40" height="40" x="-20" y="-20">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%; color: white;">
+                        <!-- Rotating wheel effect simulation -->
+                        <i class="fas fa-motorcycle" style="font-size:24px; color: #0f172a; filter: drop-shadow(0 0 2px white);"></i>
+                    </div>
+                </foreignObject>
+            </g>
+        </svg>
+    </div>
+
     <!-- HIGHLIGHTS SECTION -->
-    <section id="highlights" class="relative -mt-10 z-20 container mx-auto px-4 reveal">
+    <section id="highlights" class="relative z-20 container mx-auto px-4 reveal pb-20">
         <div class="glass-card rounded-xl shadow-2xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-4xl mx-auto transition-colors duration-300 tilt-card">
             <div class="flex flex-col items-center group">
                 <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition">
@@ -646,7 +574,7 @@
         </div>
     </section>
 
-    <!-- ITINERARY SECTION (Redesigned as Vertical Timeline) -->
+    <!-- ITINERARY SECTION -->
     <section id="itinerary" class="py-20 container mx-auto px-6 reveal">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">កាលវិភាគដំណើរ</span><span class="lang-en hidden">Itinerary</span></h2>
@@ -1120,56 +1048,63 @@
         setInterval(updateCountdown, 1000);
         updateCountdown(); // Initial call
 
-        // --- 7. DAY/NIGHT & CLOCK LOGIC ---
-        let isManualOverride = false;
+        // --- 7. SCROLL DRIVEN BIKE ANIMATION ---
+        const bikePath = document.getElementById('responsiveRidePath');
+        const bikeGroup = document.getElementById('bike-group');
+        const sunGroup = document.getElementById('sun-group');
         
-        function startDayNightCycle() {
-            const cycleDuration = 20000; 
-            const sunsetTime = 9500;   // Veal Veng -> Osoam
-            const sunriseTime = 16500; // Koh Kong -> PP
+        // Initialize bike logic
+        function updateBikePosition() {
+            const scrollY = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = Math.min(Math.max(scrollY / docHeight, 0), 1);
             
-            const updateCycle = () => {
-                const now = Date.now();
-                const elapsed = now % cycleDuration;
-                
-                // Clock Logic
-                const totalMinutes = (elapsed / cycleDuration) * 1440;
-                let startOffset = 6 * 60; // 06:00 AM
-                let currentMinutes = (startOffset + totalMinutes) % 1440;
-                
-                const hours = Math.floor(currentMinutes / 60);
-                const mins = Math.floor(currentMinutes % 60);
-                
-                const hourDeg = (hours % 12) * 30 + (mins * 0.5); 
-                const minDeg = mins * 6;
+            const pathLength = bikePath.getTotalLength();
+            const point = bikePath.getPointAtLength(scrollPercent * pathLength);
+            
+            // Calculate rotation angle
+            // Look slightly ahead to determine direction
+            const nextPoint = bikePath.getPointAtLength(Math.min((scrollPercent + 0.01) * pathLength, pathLength));
+            const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
 
-                if (hourHand) hourHand.setAttribute('transform', `rotate(${hourDeg})`);
-                if (minuteHand) minuteHand.setAttribute('transform', `rotate(${minDeg})`);
-
-                if (isManualOverride) {
-                     requestAnimationFrame(updateCycle);
-                     return;
+            // Move Bike
+            // Note: point.y is relative to SVG viewBox (450 height). We need to ensure it aligns visually.
+            // Using transform translate on the group.
+            bikeGroup.setAttribute('transform', `translate(${point.x}, ${point.y}) rotate(${angle})`);
+            
+            // Move Sun (Sun moves 0 to -60 Y relative to bike path? No, let's make sun follow path but higher up)
+            // Or simple offset from bike position
+            sunGroup.setAttribute('transform', `translate(${point.x}, ${point.y - 60})`);
+            
+            // Dynamic Theme Switching based on Scroll (Day/Night areas)
+            // Map stops: PP(0) -> Pursat(~25%) -> VealVeng(~40%) -> Osoam(~60%) -> KK(~80%) -> PP(100%)
+            // Let's say Osoam area is Night.
+            
+            const isNightSection = (scrollPercent > 0.45 && scrollPercent < 0.75); // Veal Veng to Koh Kong roughly
+            
+            if (isNightSection) {
+                if (!document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.add('dark');
+                    updateThemeIcon(true);
                 }
-
-                // Theme Logic
-                if (elapsed >= sunsetTime && elapsed < sunriseTime) {
-                    if (!document.documentElement.classList.contains('dark')) {
-                        document.documentElement.classList.add('dark');
-                        updateThemeIcon(true);
-                    }
-                } else {
-                    if (document.documentElement.classList.contains('dark')) {
-                        document.documentElement.classList.remove('dark');
-                        updateThemeIcon(false);
-                    }
+            } else {
+                // Only switch back to light if user hasn't manually forced dark mode? 
+                // For scrollytelling simplicity, we enforce theme based on location unless overridden.
+                // However, manual toggle exists. Let's respect manual override if implemented complexly.
+                // For now, let's just auto-switch for effect.
+                if (document.documentElement.classList.contains('dark') && !isManualOverride) {
+                    document.documentElement.classList.remove('dark');
+                    updateThemeIcon(false);
                 }
-                
-                requestAnimationFrame(updateCycle);
-            };
-            requestAnimationFrame(updateCycle);
+            }
         }
 
-        startDayNightCycle();
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(updateBikePosition);
+        });
+
+        // Manual Theme Override Logic
+        let isManualOverride = false;
 
         function toggleTheme() {
             isManualOverride = true;
@@ -1203,6 +1138,9 @@
             document.querySelectorAll('.lang-km').forEach(el => el.classList.toggle('hidden'));
             document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden'));
         });
+        
+        // Initialize bike once
+        updateBikePosition();
     </script>
 </body>
 </html>
