@@ -16,7 +16,7 @@
 
     <style>
         /* --- SMOOTH TRANSITIONS --- */
-        body, h1, h2, h3, h4, p, a, span, div, button, nav, footer, .mountain-layer { 
+        body, h1, h2, h3, h4, p, a, span, div, button, nav, footer, .mountain-layer, input, textarea { 
             font-family: 'Kantumruy Pro', sans-serif; 
             transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, fill 1.5s ease, stroke 1.5s ease, opacity 1.5s ease;
         }
@@ -262,6 +262,20 @@
         html:not(.dark) .text-shadow-poster { text-shadow: none; color: #0f172a; }
         
         .hidden { display: none !important; }
+        
+        /* Form Inputs */
+        .glass-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        html:not(.dark) .glass-input {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #1f2937;
+        }
+        .glass-input:focus { outline: none; border-color: #00ffc2; }
+        html:not(.dark) .glass-input:focus { border-color: #0d9488; }
     </style>
     
     <script>
@@ -305,7 +319,7 @@
             <div class="flex items-center gap-6">
                 <div class="hidden md:flex space-x-8 text-base font-bold tracking-wide">
                     <a href="#mission" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
-                    <a href="#objectives" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">គោលបំណង</span><span class="lang-en hidden">Objectives</span></a>
+                    <a href="#itinerary" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">កាលវិភាគ</span><span class="lang-en hidden">Itinerary</span></a>
                     <a href="#sponsors" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ដៃគូសហការ</span><span class="lang-en hidden">Partners</span></a>
                     <a href="#contact" class="border border-teal-600 dark:border-shirt-green px-4 py-2 rounded text-teal-600 dark:text-shirt-green hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition"><span class="lang-km">ទំនាក់ទំនង</span><span class="lang-en hidden">Contact</span></a>
                 </div>
@@ -340,6 +354,26 @@
                 <span class="lang-km">ដំណើរកម្សាន្តរឿងរ៉ាវ និងបេសកកម្មកែលម្អផែនទីឌីជីថល<br>នៅតំបន់អូសោម ខេត្តពោធិ៍សាត់</span>
                 <span class="lang-en hidden">A Storytelling Journey & Digital Mapping Mission<br>in Osoam, Pursat Province</span>
             </p>
+
+            <!-- COUNTDOWN TIMER (New) -->
+            <div class="grid grid-cols-4 gap-4 max-w-xl mx-auto mb-10 text-center">
+                <div class="glass-card p-2 rounded-lg">
+                    <span id="days" class="text-2xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
+                    <span class="text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Days</span>
+                </div>
+                <div class="glass-card p-2 rounded-lg">
+                    <span id="hours" class="text-2xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
+                    <span class="text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Hours</span>
+                </div>
+                <div class="glass-card p-2 rounded-lg">
+                    <span id="minutes" class="text-2xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
+                    <span class="text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Min</span>
+                </div>
+                <div class="glass-card p-2 rounded-lg">
+                    <span id="seconds" class="text-2xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
+                    <span class="text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Sec</span>
+                </div>
+            </div>
             
             <div class="flex flex-col md:flex-row justify-center gap-4 text-base font-bold">
                 <div class="flex items-center gap-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md px-8 py-4 rounded-full border border-gray-200 dark:border-gray-700 shadow-xl hover:border-teal-500 dark:hover:border-shirt-green transition group">
@@ -491,60 +525,56 @@
         </div>
     </section>
 
-    <!-- OBJECTIVES SECTION -->
-    <section id="objectives" class="py-10 container mx-auto px-6 reveal">
+    <!-- ITINERARY (កាលវិភាគ) -->
+    <section id="itinerary" class="py-20 container mx-auto px-6 reveal">
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">គោលបំណងសំខាន់ៗ</span><span class="lang-en hidden">Key Objectives</span></h2>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">កាលវិភាគដំណើរ</span><span class="lang-en hidden">Itinerary</span></h2>
             <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
         </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- OBJ 1 -->
-            <div class="glass-card p-6 rounded-lg hover:-translate-y-2 transition duration-300">
-                <div class="w-14 h-14 bg-teal-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <i class="fas fa-video text-2xl text-teal-600 dark:text-shirt-green"></i>
-                </div>
-                <h3 class="text-xl font-bold text-center mb-3 text-gray-900 dark:text-white"><span class="lang-km">ផលិតវីដេអូរឿងរ៉ាវ</span><span class="lang-en hidden">Storytelling Video</span></h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
-                    <span class="lang-km">ចាប់យកជីវភាពពិតរបស់សហគមន៍អូសោម និងការងារអេកូទេសចរណ៍។</span>
-                    <span class="lang-en hidden">Capture the real life of the Osoam community and eco-tourism work.</span>
-                </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Day 1 -->
+            <div class="glass-card p-6 rounded-xl border-t-4 border-teal-500 dark:border-shirt-green hover:scale-105 transition duration-300">
+                <div class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10">01</div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">ចេញដំណើរ</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">04 DEC 2025</p>
+                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ភ្នំពេញ -> ពោធិ៍សាត</li>
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>បន្តទៅ វាលវែង</li>
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>បោះជំរុំនៅ វាលវែង</li>
+                </ul>
             </div>
-            
-            <!-- OBJ 2 -->
-            <div class="glass-card p-6 rounded-lg hover:-translate-y-2 transition duration-300">
-                <div class="w-14 h-14 bg-teal-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <i class="fas fa-map-marked-alt text-2xl text-teal-600 dark:text-shirt-green"></i>
-                </div>
-                <h3 class="text-xl font-bold text-center mb-3 text-gray-900 dark:text-white"><span class="lang-km">កែលម្អផែនទី</span><span class="lang-en hidden">Digital Mapping</span></h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
-                    <span class="lang-km">ធ្វើឱ្យអូសោមក្លាយជាតំបន់ដែលមានព័ត៌មានត្រឹមត្រូវ និងងាយស្រួលស្វែងរកលើ Google Maps។</span>
-                    <span class="lang-en hidden">Make Osoam a region with accurate and easy-to-find information on Google Maps.</span>
-                </p>
+            <!-- Day 2 -->
+            <div class="glass-card p-6 rounded-xl border-t-4 border-teal-500 dark:border-shirt-green hover:scale-105 transition duration-300">
+                <div class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10">02</div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">បេះដូងអូសោម</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">05 DEC 2025</p>
+                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ឡើងភ្នំ ១៥០០</li>
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ចូលសហគមន៍អូសោម</li>
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>Mapping Mission</li>
+                </ul>
             </div>
-
-            <!-- OBJ 3 -->
-            <div class="glass-card p-6 rounded-lg hover:-translate-y-2 transition duration-300">
-                <div class="w-14 h-14 bg-teal-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <i class="fas fa-lightbulb text-2xl text-teal-600 dark:text-shirt-green"></i>
-                </div>
-                <h3 class="text-xl font-bold text-center mb-3 text-gray-900 dark:text-white"><span class="lang-km">អប់រំ និងបំផុសគំនិត</span><span class="lang-en hidden">Education & Inspire</span></h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
-                    <span class="lang-km">បង្ហាញសារៈសំខាន់នៃជីវិតពិត និងការរៀនពីមនុស្សក្នុងតំបន់។</span>
-                    <span class="lang-en hidden">Showcase the importance of real life and learning from locals.</span>
-                </p>
+            <!-- Day 3 -->
+            <div class="glass-card p-6 rounded-xl border-t-4 border-teal-500 dark:border-shirt-green hover:scale-105 transition duration-300">
+                <div class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10">03</div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">ស្វែងយល់ធម្មជាតិ</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">06 DEC 2025</p>
+                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>រុករកតំបន់ធម្មជាតិ</li>
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ថត Street View បន្ថែម</li>
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ធ្វើដំណើរទៅ កោះកុង</li>
+                </ul>
             </div>
-
-            <!-- OBJ 4 -->
-            <div class="glass-card p-6 rounded-lg hover:-translate-y-2 transition duration-300">
-                <div class="w-14 h-14 bg-teal-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <i class="fas fa-database text-2xl text-teal-600 dark:text-shirt-green"></i>
-                </div>
-                <h3 class="text-xl font-bold text-center mb-3 text-gray-900 dark:text-white"><span class="lang-km">ទិន្នន័យអនាគត</span><span class="lang-en hidden">Future Data</span></h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
-                    <span class="lang-km">បង្កើតឯកសារ Travel Guide សម្រាប់អ្នកធ្វើដំណើរជំនាន់ក្រោយ។</span>
-                    <span class="lang-en hidden">Create Travel Guide data for future travelers.</span>
-                </p>
+            <!-- Day 4 -->
+            <div class="glass-card p-6 rounded-xl border-t-4 border-teal-500 dark:border-shirt-green hover:scale-105 transition duration-300">
+                <div class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10">04</div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">ត្រឡប់វិញ</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">07 DEC 2025</p>
+                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>កោះកុង -> ភ្នំពេញ</li>
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ចែករំលែកទិន្នន័យ</li>
+                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>បញ្ចប់បេសកកម្ម</li>
+                </ul>
             </div>
         </div>
     </section>
@@ -705,7 +735,36 @@
             });
         });
 
-        // --- 4. DAY/NIGHT & CLOCK LOGIC ---
+        // --- 4. COUNTDOWN TIMER ---
+        const targetDate = new Date("December 4, 2025 00:00:00").getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+
+        // --- 5. DAY/NIGHT & CLOCK LOGIC ---
         let isManualOverride = false;
         
         function startDayNightCycle() {
