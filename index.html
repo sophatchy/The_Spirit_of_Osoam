@@ -234,18 +234,19 @@
             <!-- Used xMidYMax meet to keep map at the bottom and center -->
             <svg class="svg-path-container" viewBox="0 0 1200 450" preserveAspectRatio="xMidYMax meet">
                 <defs>
-                    <path id="responsiveRidePath" d="M50,380 C150,380 200,300 300,260 C400,220 400,120 500,120 C600,120 600,260 700,260 C800,260 800,380 900,380 C1000,380 1050,380 1150,380" />
+                    <!-- Smoother "Snake" Road with Veal Veng Lowered (Fixed: Removed comments inside path data) -->
+                    <path id="responsiveRidePath" d="M50,380 L250,380 C280,380 290,260 300,260 C350,320 350,180 400,240 S450,280 500,220 C550,160 550,280 600,240 S650,180 700,260 C750,320 750,240 800,300 S850,440 900,380 C950,340 1000,380 1150,380" />
                     <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 
-                <!-- Track Lines (Thinner stroke: 5) -->
-                <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="5" fill="none" class="opacity-30 dark:opacity-100 transition-opacity duration-1000" />
+                <!-- Track Lines (Stroke width 4) -->
+                <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="4" fill="none" class="opacity-30 dark:opacity-100 transition-opacity duration-1000" />
                 
                 <!-- Day Track (Teal) -->
-                <use xlink:href="#responsiveRidePath" stroke="#0f766e" stroke-width="5" fill="none" stroke-dasharray="20,15" class="dark:hidden" />
+                <use xlink:href="#responsiveRidePath" stroke="#0f766e" stroke-width="4" fill="none" stroke-dasharray="20,15" class="dark:hidden" />
                 
                 <!-- Night Track (Neon) -->
-                <use xlink:href="#responsiveRidePath" stroke="#00ffc2" stroke-width="5" fill="none" stroke-dasharray="20,15" class="hidden dark:block">
+                <use xlink:href="#responsiveRidePath" stroke="#00ffc2" stroke-width="4" fill="none" stroke-dasharray="20,15" class="hidden dark:block">
                     <animate attributeName="stroke" values="#00ffc2;#00ffc2;#ff0055;#ff0055;#00ffc2" keyTimes="0; 0.6; 0.65; 0.95; 1" dur="20s" repeatCount="indefinite" />
                 </use>
                 
@@ -257,8 +258,9 @@
                     <circle cx="300" cy="260" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
                     <text x="300" y="295" class="svg-text">ពោធិ៍សាត</text>
                     
-                    <circle cx="500" cy="120" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="500" y="100" class="svg-text">វាលវែង</text>
+                    <!-- Veal Veng Position (Y=220) -->
+                    <circle cx="500" cy="220" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="500" y="200" class="svg-text">វាលវែង</text>
                     
                     <circle cx="700" cy="260" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
                     <text x="700" y="300" class="svg-text svg-text-highlight">អូសោម</text>
