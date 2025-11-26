@@ -16,7 +16,7 @@
 
     <style>
         /* --- SMOOTH TRANSITIONS --- */
-        body, h1, h2, h3, h4, p, a, span, div, button, nav, footer, .mountain-layer, input, textarea { 
+        body, h1, h2, h3, h4, p, a, span, div, button, nav, footer, .mountain-layer, input, textarea, details, summary { 
             font-family: 'Kantumruy Pro', sans-serif; 
             transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, fill 1.5s ease, stroke 1.5s ease, opacity 1.5s ease;
         }
@@ -263,19 +263,27 @@
         
         .hidden { display: none !important; }
         
-        /* Form Inputs */
-        .glass-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
+        /* FAQ & Accordion */
+        details > summary {
+            list-style: none;
+            cursor: pointer;
         }
-        html:not(.dark) .glass-input {
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            color: #1f2937;
+        details > summary::-webkit-details-marker {
+            display: none;
         }
-        .glass-input:focus { outline: none; border-color: #00ffc2; }
-        html:not(.dark) .glass-input:focus { border-color: #0d9488; }
+        
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
     </style>
     
     <script>
@@ -309,6 +317,11 @@
     <!-- Tooltip Element -->
     <div id="map-tooltip"></div>
 
+    <!-- FLOATING ACTION BUTTON -->
+    <a href="https://t.me/ChySophat" target="_blank" class="fab w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg transition duration-300">
+        <i class="fab fa-telegram-plane text-2xl"></i>
+    </a>
+
     <!-- NAVIGATION -->
     <nav class="fixed w-full z-50 bg-white/90 dark:bg-shirt-blue/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-1000">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -320,6 +333,7 @@
                 <div class="hidden md:flex space-x-8 text-base font-bold tracking-wide">
                     <a href="#mission" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
                     <a href="#itinerary" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">កាលវិភាគ</span><span class="lang-en hidden">Itinerary</span></a>
+                    <a href="#gear" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ត្រៀមខ្លួន</span><span class="lang-en hidden">Gear</span></a>
                     <a href="#sponsors" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ដៃគូសហការ</span><span class="lang-en hidden">Partners</span></a>
                     <a href="#contact" class="border border-teal-600 dark:border-shirt-green px-4 py-2 rounded text-teal-600 dark:text-shirt-green hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition"><span class="lang-km">ទំនាក់ទំនង</span><span class="lang-en hidden">Contact</span></a>
                 </div>
@@ -355,7 +369,7 @@
                 <span class="lang-en hidden">A Storytelling Journey & Digital Mapping Mission<br>in Osoam, Pursat Province</span>
             </p>
 
-            <!-- COUNTDOWN TIMER (New) -->
+            <!-- COUNTDOWN TIMER -->
             <div class="grid grid-cols-4 gap-4 max-w-xl mx-auto mb-10 text-center">
                 <div class="glass-card p-2 rounded-lg">
                     <span id="days" class="text-2xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
@@ -375,8 +389,16 @@
                 </div>
             </div>
             
+            <!-- Weather Badge (Mockup) -->
+            <div class="flex justify-center mb-8">
+                <div class="flex items-center gap-2 px-4 py-2 bg-white/30 dark:bg-black/30 backdrop-blur rounded-full text-sm font-bold text-gray-800 dark:text-white">
+                    <i class="fas fa-cloud-sun text-teal-600 dark:text-shirt-green"></i>
+                    <span>Osoam Weather: 24°C (Avg)</span>
+                </div>
+            </div>
+            
             <div class="flex flex-col md:flex-row justify-center gap-4 text-base font-bold">
-                <div class="flex items-center gap-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md px-8 py-4 rounded-full border border-gray-200 dark:border-gray-700 shadow-xl hover:border-teal-500 dark:hover:border-shirt-green transition group">
+                <div class="flex items-center gap-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md px-8 py-4 rounded-full border border-gray-200 dark:border-gray-700 shadow-xl hover:border-teal-500 dark:hover:border-shirt-green transition group cursor-pointer" onclick="document.getElementById('itinerary').scrollIntoView({behavior: 'smooth'})">
                     <i class="fas fa-calendar-alt text-teal-600 dark:text-shirt-green text-xl group-hover:scale-110 transition"></i> 
                     <span class="text-gray-800 dark:text-white"><span class="lang-km">០៤-០៧ ធ្នូ ២០២៥</span><span class="lang-en hidden">04-07 DEC 2025</span></span>
                 </div>
@@ -579,6 +601,73 @@
         </div>
     </section>
 
+    <!-- NEW SECTION: GEAR (ការត្រៀមខ្លួន) -->
+    <section id="gear" class="py-20 container mx-auto px-6 reveal">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">ការត្រៀមខ្លួន</span><span class="lang-en hidden">Preparation</span></h2>
+            <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8 text-center">
+            <div class="flex flex-col items-center">
+                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green">
+                    <i class="fas fa-camera text-2xl"></i>
+                </div>
+                <span class="text-sm font-bold text-gray-700 dark:text-gray-300">Camera</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green">
+                    <i class="fas fa-hiking text-2xl"></i>
+                </div>
+                <span class="text-sm font-bold text-gray-700 dark:text-gray-300">Hiking Boots</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green">
+                    <i class="fas fa-tshirt text-2xl"></i>
+                </div>
+                <span class="text-sm font-bold text-gray-700 dark:text-gray-300">Jacket</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green">
+                    <i class="fas fa-battery-full text-2xl"></i>
+                </div>
+                <span class="text-sm font-bold text-gray-700 dark:text-gray-300">Power Bank</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: FAQ (សំណួរដែលសួរញឹកញាប់) -->
+    <section id="faq" class="py-20 container mx-auto px-6 reveal">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">សំណួរដែលសួរញឹកញាប់</span><span class="lang-en hidden">FAQ</span></h2>
+                <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
+            </div>
+            <div class="space-y-4">
+                <details class="glass-card p-4 rounded-lg group">
+                    <summary class="font-bold text-gray-900 dark:text-white flex justify-between items-center">
+                        <span>តើផ្លូវពិបាកជិះដែរឬទេ?</span>
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">ផ្លូវភាគច្រើនជាផ្លូវកៅស៊ូ ប៉ុន្តែមានផ្លូវគ្រួសក្រហមខ្លះនៅតំបន់ភ្នំ ១៥០០ និងផ្លូវចូលសហគមន៍។ អាចជិះបានទាំងម៉ូតូ និងឡាន។</p>
+                </details>
+                <details class="glass-card p-4 rounded-lg group">
+                    <summary class="font-bold text-gray-900 dark:text-white flex justify-between items-center">
+                        <span>តើមានកន្លែងស្នាក់នៅបែបណា?</span>
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">យើងនឹងស្នាក់នៅបែប Homestay និងបោះជំរុំ (Camping) ដើម្បីទទួលបានបទពិសោធន៍ធម្មជាតិពិតៗ។</p>
+                </details>
+                <details class="glass-card p-4 rounded-lg group">
+                    <summary class="font-bold text-gray-900 dark:text-white flex justify-between items-center">
+                        <span>តើត្រូវចុះឈ្មោះយ៉ាងដូចម្តេច?</span>
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">សូមទាក់ទងមកកាន់តេឡេក្រាម @ChySophat ឬចុចប៊ូតុងខាងក្រោមដើម្បីសាកសួរព័ត៌មានបន្ថែម។</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
     <!-- SPONSORS SECTION -->
     <section id="sponsors" class="py-20 container mx-auto px-6 reveal">
         <div class="glass-card p-10 rounded-xl shadow-xl text-center">
@@ -641,7 +730,11 @@
     <footer id="contact" class="glass-card mt-10 border-t border-gray-200 dark:border-gray-800 pt-16 pb-8 reveal">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2 brand-font tracking-wide">THE SPIRIT OF OSOAM</h2>
-            <p class="text-gray-500 dark:text-gray-400 mb-8">Maps: 11° 47' 22.407" N 103° 16' 2.4827" E</p>
+            <p class="text-gray-500 dark:text-gray-400 mb-8">
+                <a href="https://www.google.com/maps/search/?api=1&query=11.7895575,103.2673563" target="_blank" class="hover:text-teal-500 transition flex items-center justify-center gap-2">
+                    <i class="fas fa-map-marker-alt"></i> Maps: 11° 47' 22.407" N 103° 16' 2.4827" E
+                </a>
+            </p>
             
             <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
                 <div class="text-left">
