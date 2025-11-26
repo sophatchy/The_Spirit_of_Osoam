@@ -16,7 +16,10 @@
 
     <style>
         /* Apply Kantumruy Pro to everything */
-        body, h1, h2, h3, h4, p, a, span, div, button { font-family: 'Kantumruy Pro', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body, h1, h2, h3, h4, p, a, span, div, button { 
+            font-family: 'Kantumruy Pro', sans-serif; 
+            transition: background-color 1s ease, color 1s ease, border-color 1s ease; /* Smooth Theme Transition */
+        }
         
         .brand-font { font-family: 'Rajdhani', sans-serif; }
         
@@ -35,7 +38,7 @@
             z-index: -1;
             background-size: 400px; 
             animation: moveMap 120s linear infinite;
-            transition: background-image 0.3s, background-color 0.3s;
+            transition: background-image 1s, background-color 1s;
         }
 
         /* DARK MODE BACKGROUND */
@@ -57,21 +60,22 @@
 
         .hero-overlay {
             background: radial-gradient(circle at center, transparent 10%, #0f1c3f 100%);
+            transition: background 1s;
         }
-        /* In light mode, overlay is white vignette */
         html:not(.dark) .hero-overlay {
             background: radial-gradient(circle at center, transparent 10%, #f8fafc 100%);
         }
 
-        /* --- MOTORBIKE ANIMATION (SVG Native) --- */
+        /* --- RESPONSIVE CONTAINER & ANIMATIONS --- */
         .bike-container {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: auto;
-            /* Allow height to shrink but maintain aspect ratio of SVG */
-            min-height: 250px;
+            /* Use viewport height for better scaling on 21:9 and Mobile */
+            height: 50vh; 
+            min-height: 300px; /* Prevent too small on mobile */
+            max-height: 600px;
             z-index: 20;
             display: flex;
             align-items: flex-end;
@@ -81,44 +85,47 @@
         .svg-path-container {
             width: 100%;
             height: 100%;
+            /* Ensure it fits fully on screen */
             filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
         }
 
-        /* Text Readability - Stroke/Halo Effect */
+        /* Text Readability */
         .svg-text {
             font-family: 'Kantumruy Pro', sans-serif;
-            font-weight: 700;
-            font-size: 18px;
+            font-weight: 800;
+            font-size: 20px; /* Increased for mobile */
             text-anchor: middle;
             fill: white;
-            stroke: #0f1c3f; /* Dark halo for contrast */
-            stroke-width: 4px;
+            stroke: #0f1c3f;
+            stroke-width: 6px; /* Thicker stroke for readability */
             paint-order: stroke;
+            transition: fill 1s, stroke 1s;
         }
         
         html:not(.dark) .svg-text {
             fill: #0f172a;
             stroke: #ffffff;
-            stroke-width: 4px;
+            stroke-width: 6px;
         }
 
         .svg-text-highlight {
             fill: #00ffc2;
+            font-size: 24px; /* Bigger main stop */
         }
         html:not(.dark) .svg-text-highlight {
             fill: #0d9488;
         }
 
-        .text-shadow-poster { text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .text-shadow-poster { text-shadow: 2px 2px 4px rgba(0,0,0,0.8); transition: color 1s, text-shadow 1s; }
         html:not(.dark) .text-shadow-poster { text-shadow: none; color: #0f172a; }
 
         .hidden { display: none !important; }
         
-        /* Glass Effect */
         .glass-card {
             background: rgba(15, 28, 63, 0.85);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 255, 194, 0.1);
+            transition: background 1s, border-color 1s, box-shadow 1s;
         }
         
         html:not(.dark) .glass-card {
@@ -145,13 +152,12 @@
         }
     </script>
 </head>
-<body class="text-gray-800 dark:text-gray-200 antialiased selection:bg-teal-600 dark:selection:bg-shirt-green selection:text-white dark:selection:text-black transition-colors duration-300">
+<body class="text-gray-800 dark:text-gray-200 antialiased selection:bg-teal-600 dark:selection:bg-shirt-green selection:text-white dark:selection:text-black transition-colors duration-1000">
 
-    <!-- GLOBAL BACKGROUND -->
     <div id="global-bg"></div>
 
     <!-- NAVIGATION -->
-    <nav class="fixed w-full z-50 bg-white/90 dark:bg-shirt-blue/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+    <nav class="fixed w-full z-50 bg-white/90 dark:bg-shirt-blue/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-1000">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-gray-900 dark:text-white brand-font">
                 Sophat <span class="text-teal-600 dark:text-shirt-green">CHY</span>
@@ -159,24 +165,15 @@
             
             <div class="flex items-center gap-6">
                 <div class="hidden md:flex space-x-8 text-base font-bold tracking-wide">
-                    <a href="#mission" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition">
-                        <span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span>
-                    </a>
-                    <a href="#route" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition">
-                        <span class="lang-km">ផ្លូវធ្វើដំណើរ</span><span class="lang-en hidden">Route</span>
-                    </a>
-                    <a href="#sponsors" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition">
-                        <span class="lang-km">ដៃគូសហការ</span><span class="lang-en hidden">Partners</span>
-                    </a>
-                    <a href="#contact" class="border border-teal-600 dark:border-shirt-green px-4 py-2 rounded text-teal-600 dark:text-shirt-green hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition">
-                        <span class="lang-km">ទំនាក់ទំនង</span><span class="lang-en hidden">Contact</span>
-                    </a>
+                    <a href="#mission" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
+                    <a href="#route" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ផ្លូវធ្វើដំណើរ</span><span class="lang-en hidden">Route</span></a>
+                    <a href="#sponsors" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ដៃគូសហការ</span><span class="lang-en hidden">Partners</span></a>
+                    <a href="#contact" class="border border-teal-600 dark:border-shirt-green px-4 py-2 rounded text-teal-600 dark:text-shirt-green hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition"><span class="lang-km">ទំនាក់ទំនង</span><span class="lang-en hidden">Contact</span></a>
                 </div>
-
                 <div class="flex items-center gap-3 border-l border-gray-300 dark:border-gray-700 pl-6">
                     <button id="lang-toggle" class="font-bold text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition">EN</button>
                     <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition">
-                        <i class="fas fa-moon text-gray-600 dark:text-shirt-green text-lg"></i>
+                        <i id="theme-icon" class="fas fa-moon text-gray-600 dark:text-shirt-green text-lg"></i>
                     </button>
                 </div>
             </div>
@@ -185,9 +182,9 @@
 
     <!-- HERO SECTION -->
     <header class="relative h-screen flex flex-col items-center justify-center overflow-hidden pb-32">
-        <!-- Digital Overlay -->
+        <!-- Digital Overlay for Day/Night Effect -->
         <div class="absolute inset-0 hero-overlay pointer-events-none"></div>
-
+        
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto -mt-10">
             <!-- Badge -->
             <div class="inline-block bg-teal-50 dark:bg-gradient-to-r dark:from-teal-600 dark:to-shirt-green text-teal-800 dark:text-black px-6 py-2 font-bold text-sm tracking-wide mb-6 rounded-full shadow-lg border border-teal-200 dark:border-teal-400">
@@ -195,7 +192,6 @@
                 <span class="lang-en hidden">A Journey into the Heart of the Cardamoms</span>
             </div>
             
-            <!-- Title -->
             <h1 class="text-5xl md:text-9xl font-bold text-gray-900 dark:text-white mb-4 leading-tight brand-font tracking-tighter dark:drop-shadow-2xl">
                 THE SPIRIT OF <br>
                 <span class="text-teal-600 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-shirt-green dark:to-teal-200">OSOAM</span>
@@ -206,69 +202,68 @@
                 <span class="lang-en hidden">A Storytelling Journey & Digital Mapping Mission<br>in Osoam, Pursat Province</span>
             </p>
             
-            <!-- Info Bar -->
             <div class="flex flex-col md:flex-row justify-center gap-4 text-base font-bold">
                 <div class="flex items-center gap-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md px-8 py-4 rounded-full border border-gray-200 dark:border-gray-700 shadow-xl hover:border-teal-500 dark:hover:border-shirt-green transition group">
                     <i class="fas fa-calendar-alt text-teal-600 dark:text-shirt-green text-xl group-hover:scale-110 transition"></i> 
-                    <span class="text-gray-800 dark:text-white">
-                        <span class="lang-km">០៤-០៧ ធ្នូ ២០២៥</span>
-                        <span class="lang-en hidden">04-07 DEC 2025</span>
-                    </span>
+                    <span class="text-gray-800 dark:text-white"><span class="lang-km">០៤-០៧ ធ្នូ ២០២៥</span><span class="lang-en hidden">04-07 DEC 2025</span></span>
                 </div>
             </div>
         </div>
 
         <!-- RESPONSIVE MOTORBIKE ANIMATION CONTAINER -->
-        <!-- 
-             Using preserveAspectRatio="xMidYMid meet" ensures the entire path fits on screen 
-             without cutting off, scaling down perfectly on mobile.
-        -->
         <div class="bike-container">
-            <svg class="svg-path-container" viewBox="0 0 1200 350" preserveAspectRatio="xMidYMid meet">
+            <!-- ViewBox optimized for wide/short screens -->
+            <svg class="svg-path-container" viewBox="0 0 1200 450" preserveAspectRatio="xMidYMid meet">
                 <defs>
-                    <path id="responsiveRidePath" d="M50,250 C150,250 200,200 300,150 C400,100 400,50 500,50 C600,50 600,150 700,150 C800,150 800,300 900,300 C1000,300 1050,300 1150,300" />
+                    <path id="responsiveRidePath" d="M50,350 C150,350 200,300 300,250 C400,200 400,100 500,100 C600,100 600,200 700,200 C800,200 800,350 900,350 C1000,350 1050,350 1150,350" />
+                    <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 
                 <!-- Track Lines -->
-                <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="6" fill="none" class="opacity-50 dark:opacity-100" />
-                <use xlink:href="#responsiveRidePath" stroke="#00ffc2" stroke-width="6" fill="none" stroke-dasharray="15,10" class="hidden dark:block" />
-                <use xlink:href="#responsiveRidePath" stroke="#0f766e" stroke-width="6" fill="none" stroke-dasharray="15,10" class="dark:hidden" />
+                <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="8" fill="none" class="opacity-50 dark:opacity-100 transition-opacity duration-1000" />
                 
-                <!-- Stops with readable Text (Stroke added) -->
+                <!-- Stops -->
                 <g class="stop-group">
-                    <circle cx="50" cy="250" r="8" fill="#0f1c3f" stroke="#00ffc2" stroke-width="3" />
-                    <text x="50" y="290" class="svg-text">ភ្នំពេញ</text>
+                    <circle cx="50" cy="350" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
+                    <text x="50" y="400" class="svg-text">ភ្នំពេញ</text>
                     
-                    <circle cx="300" cy="150" r="8" fill="#0f1c3f" stroke="#00ffc2" stroke-width="3" />
-                    <text x="300" y="190" class="svg-text">ពោធិ៍សាត</text>
+                    <circle cx="300" cy="250" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
+                    <text x="300" y="290" class="svg-text">ពោធិ៍សាត</text>
                     
-                    <circle cx="500" cy="50" r="8" fill="#0f1c3f" stroke="#00ffc2" stroke-width="3" />
-                    <text x="500" y="35" class="svg-text">វាលវែង (១៥០០)</text>
+                    <circle cx="500" cy="100" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
+                    <text x="500" y="80" class="svg-text">វាលវែង (១៥០០)</text>
                     
-                    <circle cx="700" cy="150" r="12" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
-                    <text x="700" y="200" class="svg-text svg-text-highlight" style="font-size:22px;">អូសោម</text>
+                    <circle cx="700" cy="200" r="15" fill="#0f1c3f" stroke="#00ffc2" stroke-width="5" />
+                    <text x="700" y="250" class="svg-text svg-text-highlight">អូសោម</text>
                     
-                    <circle cx="900" cy="300" r="8" fill="#0f1c3f" stroke="#00ffc2" stroke-width="3" />
-                    <text x="900" y="340" class="svg-text">កោះកុង</text>
+                    <circle cx="900" cy="350" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
+                    <text x="900" y="400" class="svg-text">កោះកុង</text>
                     
-                    <circle cx="1150" cy="300" r="8" fill="#0f1c3f" stroke="#00ffc2" stroke-width="3" />
-                    <text x="1150" y="340" class="svg-text">ភ្នំពេញ</text>
+                    <circle cx="1150" cy="350" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
+                    <text x="1150" y="400" class="svg-text">ភ្នំពេញ</text>
                 </g>
 
-                <!-- The Rider with Native SVG Animation (Scales Perfectly) -->
+                <!-- THE SUN/MOON (Follows Bike, Changes Color) -->
                 <g>
-                    <circle r="20" fill="#fcb813" opacity="0.8" filter="url(#glow)">
-                        <animateMotion dur="15s" repeatCount="indefinite" rotate="auto">
+                    <circle r="30" filter="url(#glow)">
+                        <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
                             <mpath xlink:href="#responsiveRidePath" />
                         </animateMotion>
+                        <!-- Color Animation: Yellow(Day) -> Orange(Sunset) -> White(Moon) -> Hide -> Yellow -->
+                        <animate attributeName="fill" values="#fbbf24; #f59e0b; #ff4500; #e2e8f0; #e2e8f0; #fbbf24" keyTimes="0; 0.4; 0.55; 0.65; 0.95; 1" dur="20s" repeatCount="indefinite" />
+                        <!-- Lift Sun higher -->
+                        <animateTransform attributeName="transform" type="translate" from="0 -80" to="0 -80" dur="20s" repeatCount="indefinite" />
                     </circle>
-                    <!-- FontAwesome Icon inside SVG using foreignObject is buggy, using simple SVG bike shape or Circle for reliability -->
-                    <foreignObject width="40" height="40" x="-20" y="-20">
+                </g>
+
+                <!-- The Rider -->
+                <g>
+                    <foreignObject width="60" height="60" x="-30" y="-30">
                         <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%; color: white;">
-                            <i class="fas fa-motorcycle" style="font-size:24px; color: black; filter: drop-shadow(0 0 2px white);"></i>
+                            <i class="fas fa-motorcycle" style="font-size:35px; color: #0f172a; filter: drop-shadow(0 0 2px white);"></i>
                         </div>
                     </foreignObject>
-                    <animateMotion dur="15s" repeatCount="indefinite" rotate="auto">
+                    <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
                         <mpath xlink:href="#responsiveRidePath" />
                     </animateMotion>
                 </g>
@@ -276,7 +271,7 @@
         </div>
     </header>
 
-    <!-- MISSION STATS -->
+    <!-- Rest of content... -->
     <section class="relative -mt-10 z-20 container mx-auto px-4">
         <div class="glass-card rounded-xl shadow-2xl p-8 grid grid-cols-3 gap-6 text-center max-w-4xl mx-auto transition-colors duration-300">
             <div class="flex flex-col items-center group">
@@ -284,23 +279,15 @@
                     <i class="fas fa-route text-xl text-gray-700 dark:text-white"></i>
                 </div>
                 <h3 class="text-4xl font-bold text-gray-800 dark:text-white brand-font mb-1">4</h3>
-                <p class="text-gray-500 dark:text-gray-400 text-sm font-bold">
-                    <span class="lang-km">ថ្ងៃនៃដំណើរ</span>
-                    <span class="lang-en hidden">Days Journey</span>
-                </p>
+                <p class="text-gray-500 dark:text-gray-400 text-sm font-bold"><span class="lang-km">ថ្ងៃនៃដំណើរ</span><span class="lang-en hidden">Days Journey</span></p>
             </div>
-            
             <div class="flex flex-col items-center group">
                 <div class="w-12 h-12 rounded-full bg-red-50 dark:bg-moto-red/10 flex items-center justify-center mb-3 group-hover:bg-red-100 dark:group-hover:bg-moto-red/20 transition">
                     <i class="fas fa-mountain text-xl text-moto-red"></i>
                 </div>
                 <h3 class="text-4xl font-bold text-moto-red brand-font mb-1">1500</h3>
-                <p class="text-gray-500 dark:text-gray-400 text-sm font-bold">
-                    <span class="lang-km">ភ្នំ ១៥០០</span>
-                    <span class="lang-en hidden">Phnom 1500</span>
-                </p>
+                <p class="text-gray-500 dark:text-gray-400 text-sm font-bold"><span class="lang-km">ភ្នំ ១៥០០</span><span class="lang-en hidden">Phnom 1500</span></p>
             </div>
-            
             <div class="flex flex-col items-center group">
                 <div class="w-12 h-12 rounded-full bg-teal-50 dark:bg-shirt-green/10 flex items-center justify-center mb-3 group-hover:bg-teal-100 dark:group-hover:bg-shirt-green/20 transition">
                     <i class="fas fa-street-view text-xl text-teal-600 dark:text-shirt-green"></i>
@@ -311,250 +298,111 @@
         </div>
     </section>
 
-    <!-- ABOUT & OBJECTIVES -->
     <section id="mission" class="py-20 container mx-auto px-6">
         <div class="max-w-4xl mx-auto glass-card p-8 rounded-xl shadow-xl">
-            <div>
-                <h2 class="text-3xl md:text-5xl font-bold mb-6 border-l-4 border-teal-600 dark:border-shirt-green pl-6 text-gray-900 dark:text-white">
-                    <span class="lang-km">មូលហេតុនៃដំណើរនេះ?</span>
-                    <span class="lang-en hidden">Why This Journey?</span> <br>
-                    <span class="text-gray-400 dark:text-gray-500 text-2xl font-normal brand-font">Why We Ride?</span>
-                </h2>
-                <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-lg">
-                    <span class="lang-km">“The Spirit of Osoam” មិនមែនគ្រាន់តែជាគម្រោងផលិតមាតិកាទេ។ វាជាដំណើរមួយដើម្បីជួយសហគមន៍ក្នុងការកែលម្អផែនទីឌីជីថល។</span>
-                    <span class="lang-en hidden">"The Spirit of Osoam" is not just a content creation project. It is a journey to empower the community by improving their digital map presence.</span>
-                </p>
-                
-                <ul class="space-y-6 mt-8">
-                    <li class="flex items-start gap-4 group">
-                        <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-teal-600 dark:text-shirt-green group-hover:bg-teal-600 dark:group-hover:bg-shirt-green group-hover:text-white dark:group-hover:text-black transition duration-300">
-                            <i class="fas fa-camera text-xl"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-gray-900 dark:text-white text-xl">
-                                <span class="lang-km">ការចងក្រងរឿងរ៉ាវ (Storytelling)</span>
-                                <span class="lang-en hidden">Storytelling</span>
-                            </h4>
-                            <p class="text-gray-500 dark:text-gray-400">
-                                <span class="lang-km">ផលិតវីដេអូរឿងរ៉ាវអំពីអូសោម និងធម្មជាតិ។</span>
-                                <span class="lang-en hidden">Producing cinematic stories about Osoam and nature.</span>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-4 group">
-                        <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-moto-red group-hover:bg-moto-red group-hover:text-white transition duration-300">
-                            <i class="fas fa-map-location-dot text-xl"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-gray-900 dark:text-white text-xl">
-                                <span class="lang-km">ផែនទីឌីជីថល (Digital Mapping)</span>
-                                <span class="lang-en hidden">Digital Mapping</span>
-                            </h4>
-                            <p class="text-gray-500 dark:text-gray-400">
-                                <span class="lang-km">ថត Street View និងកែប្រែព័ត៌មានលើ Google Maps។</span>
-                                <span class="lang-en hidden">Capturing Street View and updating Google Maps data.</span>
-                            </p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <h2 class="text-3xl md:text-5xl font-bold mb-6 border-l-4 border-teal-600 dark:border-shirt-green pl-6 text-gray-900 dark:text-white">
+                <span class="lang-km">មូលហេតុនៃដំណើរនេះ?</span>
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-lg">
+                <span class="lang-km">“The Spirit of Osoam” មិនមែនគ្រាន់តែជាគម្រោងផលិតមាតិកាទេ។ វាជាដំណើរមួយដើម្បីជួយសហគមន៍ក្នុងការកែលម្អផែនទីឌីជីថល។</span>
+            </p>
         </div>
     </section>
 
-    <!-- THE ROUTE (Timeline) -->
-    <section id="route" class="py-24 relative overflow-hidden">
-        <div class="container mx-auto px-6 relative z-10 glass-card p-10 rounded-xl">
-            <div class="text-center mb-10">
-                <span class="text-teal-600 dark:text-shirt-green font-bold tracking-wider uppercase text-sm border-b border-teal-600 dark:border-shirt-green pb-2">
-                    <span class="lang-km">ដំណើរផ្សងព្រេងជុំវិញភ្នំ</span>
-                    <span class="lang-en hidden">Cardamom Loop Expedition</span>
-                </span>
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mt-6">
-                    <span class="lang-km">ផ្លូវធ្វើដំណើរ</span>
-                    <span class="lang-en hidden">The Route</span>
-                </h2>
-                
-                <!-- ROUTE TEXT VISUALIZER -->
-                <div class="mt-8 bg-gray-100 dark:bg-gray-900/50 inline-block px-8 py-4 rounded-full border border-gray-300 dark:border-gray-600 shadow-inner">
-                    <p class="text-lg md:text-xl text-gray-800 dark:text-gray-200 font-bold leading-relaxed flex flex-wrap justify-center items-center gap-2">
-                        <span class="whitespace-nowrap">ភ្នំពេញ</span> <i class="fas fa-arrow-right text-teal-600 dark:text-shirt-green text-sm"></i> 
-                        <span class="whitespace-nowrap">ពោធិ៍សាត</span> <i class="fas fa-arrow-right text-teal-600 dark:text-shirt-green text-sm"></i> 
-                        <span class="whitespace-nowrap">វាលវែង (ភ្នំ ១៥០០)</span> <i class="fas fa-arrow-right text-teal-600 dark:text-shirt-green text-sm"></i> 
-                        <span class="whitespace-nowrap text-teal-700 dark:text-shirt-green font-extrabold">អូសោម</span> <i class="fas fa-arrow-right text-teal-600 dark:text-shirt-green text-sm"></i> 
-                        <span class="whitespace-nowrap">កោះកុង</span> <i class="fas fa-arrow-right text-teal-600 dark:text-shirt-green text-sm"></i> 
-                        <span class="whitespace-nowrap">ភ្នំពេញ</span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Grid Visualizer -->
-            <div class="relative max-w-6xl mx-auto">
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                    <!-- Stops -->
-                    <div class="bg-white dark:bg-dark-bg p-4 rounded-lg border border-gray-200 dark:border-gray-600 text-center hover:border-teal-600 dark:hover:border-shirt-green transition shadow-sm">
-                        <div class="w-8 h-8 rounded-full bg-teal-600 dark:bg-shirt-green text-white dark:text-black font-bold mx-auto mb-3 flex items-center justify-center">1</div>
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white"><span class="lang-km">ភ្នំពេញ</span><span class="lang-en hidden">Phnom Penh</span></h3>
-                    </div>
-                    <div class="bg-white dark:bg-dark-bg p-4 rounded-lg border border-gray-200 dark:border-gray-600 text-center hover:border-teal-600 dark:hover:border-shirt-green transition shadow-sm">
-                        <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white font-bold mx-auto mb-3 flex items-center justify-center">2</div>
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white"><span class="lang-km">ពោធិ៍សាត</span><span class="lang-en hidden">Pursat</span></h3>
-                    </div>
-                    <div class="bg-white dark:bg-dark-bg p-4 rounded-lg border border-gray-200 dark:border-gray-600 text-center hover:border-teal-600 dark:hover:border-shirt-green transition shadow-sm">
-                        <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white font-bold mx-auto mb-3 flex items-center justify-center">3</div>
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white"><span class="lang-km">វាលវែង</span><span class="lang-en hidden">Veal Veng</span></h3>
-                    </div>
-                    <div class="bg-teal-50 dark:bg-dark-bg p-4 rounded-lg border-2 border-teal-600 dark:border-shirt-green text-center transform scale-105 shadow-xl">
-                        <div class="w-8 h-8 rounded-full bg-teal-600 dark:bg-shirt-green text-white dark:text-black font-bold mx-auto mb-3 flex items-center justify-center">4</div>
-                        <h3 class="text-xl font-bold text-teal-800 dark:text-shirt-green"><span class="lang-km">អូសោម</span><span class="lang-en hidden">OSOAM</span></h3>
-                    </div>
-                    <div class="bg-white dark:bg-dark-bg p-4 rounded-lg border border-gray-200 dark:border-gray-600 text-center hover:border-teal-600 dark:hover:border-shirt-green transition shadow-sm">
-                        <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white font-bold mx-auto mb-3 flex items-center justify-center">5</div>
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white"><span class="lang-km">កោះកុង</span><span class="lang-en hidden">Koh Kong</span></h3>
-                    </div>
-                    <div class="bg-white dark:bg-dark-bg p-4 rounded-lg border border-gray-200 dark:border-gray-600 text-center hover:border-teal-600 dark:hover:border-shirt-green transition shadow-sm">
-                        <div class="w-8 h-8 rounded-full bg-teal-600 dark:bg-shirt-green text-white dark:text-black font-bold mx-auto mb-3 flex items-center justify-center">6</div>
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white"><span class="lang-km">ភ្នំពេញ</span><span class="lang-en hidden">Phnom Penh</span></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SPONSORS GRID -->
     <section id="sponsors" class="py-20 container mx-auto px-6">
         <div class="glass-card p-10 rounded-xl shadow-xl text-center">
             <div class="mb-16">
                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white uppercase">
                     <span class="lang-km">ដៃគូសហការ និងការគាំទ្រ</span>
-                    <span class="lang-en hidden">Partners & Sponsors</span>
                 </h2>
                 <div class="w-24 h-1 bg-teal-600 dark:bg-shirt-green mx-auto mt-4 rounded"></div>
             </div>
-
-            <!-- Sponsors Content -->
             <div class="flex flex-col items-center mb-16 text-center">
-                <p class="text-gray-500 dark:text-gray-400 text-sm tracking-wider uppercase mb-4 font-bold">
-                    <span class="lang-km">ដៃគូទេសចរណ៍យុទ្ធសាស្ត្រ</span>
-                    <span class="lang-en hidden">Strategic Tourism Partner</span>
-                </p>
+                <p class="text-gray-500 dark:text-gray-400 text-sm tracking-wider uppercase mb-4 font-bold"><span class="lang-km">ដៃគូទេសចរណ៍យុទ្ធសាស្ត្រ</span></p>
                 <h3 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white brand-font tracking-wider uppercase">Cambodia Tourism Board</h3>
             </div>
-
-            <div class="mb-16 text-center">
-                <p class="text-gray-500 dark:text-gray-400 text-sm tracking-wider uppercase mb-6 font-bold">
-                    <span class="lang-km">ដៃគូឧបត្ថម្ភ</span>
-                    <span class="lang-en hidden">Co-Sponsors</span>
-                </p>
-                <div class="flex flex-wrap justify-center gap-4 text-gray-800 dark:text-white font-bold text-xl md:text-2xl tracking-wide items-center">
-                    <span class="px-4 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">BookMeBus</span>
-                    <span class="px-4 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">Kofi</span>
-                    <span class="px-4 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">Royal Enfield</span>
-                    <span class="px-4 brand-font uppercase">SombokIT</span>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-12 max-w-4xl mx-auto text-center">
-                <div>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm tracking-wider uppercase mb-4 font-bold">
-                        <span class="lang-km">ដៃគូឧបត្ថម្ភសម្ភារៈ</span>
-                        <span class="lang-en hidden">In-Kind Sponsors</span>
-                    </p>
-                    <div class="flex flex-wrap justify-center gap-3 text-gray-600 dark:text-gray-300 font-bold text-lg items-center">
-                        <span class="px-3 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">Lumix</span>
-                        <span class="px-3 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">Meike</span>
-                        <span class="px-3 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">Chigee</span>
-                        <span class="px-3 brand-font uppercase">Anagata Type</span>
-                    </div>
-                </div>
-
-                <div>
-                     <p class="text-gray-500 dark:text-gray-400 text-sm tracking-wider uppercase mb-4 font-bold">
-                         <span class="lang-km">ការគាំទ្រក្នុងតំបន់</span>
-                         <span class="lang-en hidden">Local Support</span>
-                     </p>
-                     <h4 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white brand-font tracking-wide uppercase">SOAM STAY</h4>
-                </div>
+            <div class="flex flex-wrap justify-center gap-4 text-gray-800 dark:text-white font-bold text-xl md:text-2xl tracking-wide items-center">
+                <span class="px-4 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">BookMeBus</span>
+                <span class="px-4 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">Kofi</span>
+                <span class="px-4 brand-font uppercase">Royal Enfield</span>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer id="contact" class="glass-card mt-10 border-t border-gray-200 dark:border-gray-800 pt-16 pb-8">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 brand-font tracking-wide">THE SPIRIT OF OSOAM</h2>
-            
             <div class="flex justify-center gap-6 mb-12">
-                <a href="mailto:sophatchy@gmail.com" class="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition border border-gray-300 dark:border-gray-700">
-                    <i class="fas fa-envelope"></i>
-                </a>
-                <a href="https://t.me/ChySophat" class="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-blue-500 hover:text-white transition border border-gray-300 dark:border-gray-700">
-                    <i class="fab fa-telegram-plane"></i>
-                </a>
-                <a href="#" class="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-red-600 hover:text-white transition border border-gray-300 dark:border-gray-700">
-                    <i class="fab fa-youtube"></i>
-                </a>
+                <a href="#" class="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-red-600 hover:text-white transition"><i class="fab fa-youtube"></i></a>
             </div>
-
-            <p class="text-gray-500 dark:text-gray-600 text-xs">
-                <span class="lang-km">© 2025 Sophat CHY. រក្សាសិទ្ធិគ្រប់យ៉ាង។ <br>រចនាឡើងសម្រាប់បេសកកម្មទេសចរណ៍ឌីជីថល។</span>
-                <span class="lang-en hidden">© 2025 Sophat CHY. All Rights Reserved. <br>Designed for Digital Tourism Mission.</span>
-            </p>
+            <p class="text-gray-500 dark:text-gray-600 text-xs">© 2025 Sophat CHY.</p>
         </div>
     </footer>
 
     <!-- Logic Script -->
     <script>
         const toggleThemeBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
         const langToggleBtn = document.getElementById('lang-toggle');
-        
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-        updateThemeIcon();
+        let isManualOverride = false; // Flag to stop auto-cycle if user clicks manually
 
+        // --- Day/Night Cycle Logic ---
+        // 20s Cycle: 0-12s (Day), 12-20s (Night)
+        // Osoam is at ~60% of the path, so 12 seconds into a 20s animation.
+        function startDayNightCycle() {
+            const cycleDuration = 20000; 
+            const sunsetPoint = 12000; // 12 seconds (Sunset at Osoam)
+            
+            const updateCycle = () => {
+                if (isManualOverride) return; // Stop if user clicked toggle
+
+                const now = Date.now();
+                const elapsed = now % cycleDuration; // Keeps loop in sync with 20s animation
+
+                if (elapsed < sunsetPoint) {
+                    // Day Time (Light Mode)
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        updateThemeIcon(false);
+                    }
+                } else {
+                    // Night Time (Dark Mode)
+                    if (!document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.add('dark');
+                        updateThemeIcon(true);
+                    }
+                }
+                requestAnimationFrame(updateCycle);
+            };
+            requestAnimationFrame(updateCycle);
+        }
+
+        // Initialize
+        startDayNightCycle();
+
+        // --- Manual Theme Toggle ---
         toggleThemeBtn.addEventListener('click', () => {
+            isManualOverride = true; // Disable auto-cycle
             document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.theme = 'dark';
-            } else {
-                localStorage.theme = 'light';
-            }
-            updateThemeIcon();
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            updateThemeIcon(isDark);
         });
 
-        function updateThemeIcon() {
-            const isDark = document.documentElement.classList.contains('dark');
-            toggleThemeBtn.innerHTML = isDark 
-                ? '<i class="fas fa-sun text-yellow-400 text-lg"></i>' 
-                : '<i class="fas fa-moon text-gray-600 text-lg"></i>';
+        function updateThemeIcon(isDark) {
+            themeIcon.className = isDark 
+                ? 'fas fa-sun text-yellow-400 text-lg' 
+                : 'fas fa-moon text-gray-600 text-lg';
         }
 
+        // Language Logic
         let currentLang = 'km'; 
-
         langToggleBtn.addEventListener('click', () => {
             currentLang = currentLang === 'km' ? 'en' : 'km';
             langToggleBtn.textContent = currentLang === 'km' ? 'EN' : 'KH';
-            
-            document.querySelectorAll('.lang-km').forEach(el => {
-                if (currentLang === 'km') el.classList.remove('hidden');
-                else el.classList.add('hidden');
-            });
-            
-            document.querySelectorAll('.lang-en').forEach(el => {
-                if (currentLang === 'en') el.classList.remove('hidden');
-                else el.classList.add('hidden');
-            });
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+            document.querySelectorAll('.lang-km').forEach(el => el.classList.toggle('hidden'));
+            document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden'));
         });
     </script>
 </body>
