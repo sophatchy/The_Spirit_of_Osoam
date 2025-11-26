@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="km" class="light"> <!-- Default to Light, JS will handle the cycle -->
+<html lang="km" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700;800&family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700;800&family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -72,7 +72,6 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            /* Dynamic height based on viewport width to maintain aspect ratio coverage */
             height: auto;
             min-height: 40vh; /* Minimum for mobile */
             max-height: 70vh; /* Maximum for desktop */
@@ -86,19 +85,18 @@
         .svg-path-container {
             width: 100%;
             height: 100%;
-            /* Ensures the map fits nicely on 21:9 and Mobile without cutting off */
             overflow: visible;
         }
 
-        /* --- TEXT & LINES (Optimized for Mobile Readability) --- */
+        /* --- TEXT & LINES --- */
         .svg-text {
             font-family: 'Kantumruy Pro', sans-serif;
             font-weight: 800;
-            font-size: 28px; /* Larger font for mobile */
+            font-size: 28px;
             text-anchor: middle;
             fill: white;
             stroke: #0f1c3f;
-            stroke-width: 8px; /* Thicker outline */
+            stroke-width: 8px;
             paint-order: stroke;
             transition: fill 1s, stroke 1s;
         }
@@ -111,14 +109,14 @@
 
         .svg-text-highlight {
             fill: #00ffc2;
-            font-size: 36px; /* Giant font for Osoam */
+            font-size: 36px;
         }
         html:not(.dark) .svg-text-highlight {
             fill: #0d9488;
         }
 
         .stop-point {
-            r: 12; /* Bigger dots */
+            r: 12;
             stroke-width: 5;
         }
 
@@ -172,7 +170,7 @@
             <div class="flex items-center gap-6">
                 <div class="hidden md:flex space-x-8 text-base font-bold tracking-wide">
                     <a href="#mission" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
-                    <a href="#route" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ផ្លូវធ្វើដំណើរ</span><span class="lang-en hidden">Route</span></a>
+                    <a href="#objectives" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">គោលបំណង</span><span class="lang-en hidden">Objectives</span></a>
                     <a href="#sponsors" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ដៃគូសហការ</span><span class="lang-en hidden">Partners</span></a>
                     <a href="#contact" class="border border-teal-600 dark:border-shirt-green px-4 py-2 rounded text-teal-600 dark:text-shirt-green hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition"><span class="lang-km">ទំនាក់ទំនង</span><span class="lang-en hidden">Contact</span></a>
                 </div>
@@ -195,15 +193,15 @@
             <!-- Badge -->
             <div class="inline-block bg-teal-50 dark:bg-gradient-to-r dark:from-teal-600 dark:to-shirt-green text-teal-800 dark:text-black px-6 py-2 font-bold text-sm tracking-wide mb-6 rounded-full shadow-lg border border-teal-200 dark:border-teal-400">
                 <span class="lang-km">ដំណើរកម្សាន្តទៅកាន់បេះដូងនៃជួរភ្នំក្រវាញ</span>
-                <span class="lang-en hidden">A Journey into the Heart of the Cardamoms</span>
+                <span class="lang-en hidden">A Journey into the Heart of the Cardamom Mountains</span>
             </div>
             
-            <h1 class="text-5xl md:text-9xl font-bold text-gray-900 dark:text-white mb-4 leading-tight brand-font tracking-tighter dark:drop-shadow-2xl">
+            <h1 class="text-4xl md:text-8xl font-bold text-gray-900 dark:text-white mb-4 leading-tight brand-font tracking-tighter dark:drop-shadow-2xl">
                 THE SPIRIT OF <br>
                 <span class="text-teal-600 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-shirt-green dark:to-teal-200">OSOAM</span>
             </h1>
             
-            <p class="text-lg md:text-2xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed font-bold max-w-3xl mx-auto text-shadow-poster">
+            <p class="text-lg md:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed font-bold max-w-3xl mx-auto text-shadow-poster">
                 <span class="lang-km">ដំណើរកម្សាន្តរឿងរ៉ាវ និងបេសកកម្មកែលម្អផែនទីឌីជីថល<br>នៅតំបន់អូសោម ខេត្តពោធិ៍សាត់</span>
                 <span class="lang-en hidden">A Storytelling Journey & Digital Mapping Mission<br>in Osoam, Pursat Province</span>
             </p>
@@ -217,11 +215,9 @@
         </div>
 
         <!-- RESPONSIVE MOTORBIKE ANIMATION CONTAINER -->
-        <!-- Use a taller viewBox (1200x500) to give curves room on mobile -->
         <div class="bike-container">
             <svg class="svg-path-container" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid meet">
                 <defs>
-                    <!-- Taller Path for better mobile visual -->
                     <path id="responsiveRidePath" d="M50,400 C150,400 200,300 300,250 C400,200 400,100 500,100 C600,100 600,250 700,250 C800,250 800,400 900,400 C1000,400 1050,400 1150,400" />
                     <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
@@ -285,9 +281,9 @@
         </div>
     </header>
 
-    <!-- SECTIONS -->
+    <!-- HIGHLIGHTS SECTION -->
     <section class="relative -mt-10 z-20 container mx-auto px-4">
-        <div class="glass-card rounded-xl shadow-2xl p-8 grid grid-cols-3 gap-6 text-center max-w-4xl mx-auto transition-colors duration-300">
+        <div class="glass-card rounded-xl shadow-2xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-4xl mx-auto transition-colors duration-300">
             <div class="flex flex-col items-center group">
                 <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition">
                     <i class="fas fa-route text-xl text-gray-700 dark:text-white"></i>
@@ -312,45 +308,172 @@
         </div>
     </section>
 
+    <!-- MISSION / WHY SECTION -->
     <section id="mission" class="py-20 container mx-auto px-6">
-        <div class="max-w-4xl mx-auto glass-card p-8 rounded-xl shadow-xl">
+        <div class="max-w-4xl mx-auto glass-card p-10 rounded-xl shadow-xl">
             <h2 class="text-3xl md:text-5xl font-bold mb-6 border-l-4 border-teal-600 dark:border-shirt-green pl-6 text-gray-900 dark:text-white">
                 <span class="lang-km">មូលហេតុនៃដំណើរនេះ?</span>
+                <span class="lang-en hidden">Why This Journey?</span>
             </h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-lg">
-                <span class="lang-km">“The Spirit of Osoam” មិនមែនគ្រាន់តែជាគម្រោងផលិតមាតិកាទេ។ វាជាដំណើរមួយដើម្បីជួយសហគមន៍ក្នុងការកែលម្អផែនទីឌីជីថល។</span>
+            <p class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-lg text-justify">
+                <span class="lang-km">“The Spirit of Osoam” មិនមែនគ្រាន់តែជាគម្រោងផលិតមាតិកាទេសចរណ៍ប៉ុណ្ណោះទេ។ វាជាដំណើរមួយដើម្បីជួយសហគមន៍ក្នុងការកែលម្អ <span class="text-teal-600 dark:text-shirt-green font-bold">ផែនទីឌីជីថល (Google Maps)</span> ដែលកំពុងជួបបញ្ហាដូចជា ទីតាំងខុស ឈ្មោះមិនត្រឹមត្រូវ និងកង្វះខាតរូបភាព Street View។</span>
+                <span class="lang-en hidden">"The Spirit of Osoam" is not just a content creation project. It is a journey to help the community improve <span class="text-teal-600 dark:text-shirt-green font-bold">Digital Maps (Google Maps)</span>, addressing issues like incorrect locations, wrong names, and lack of Street View imagery.</span>
             </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-check-circle text-teal-600 dark:text-shirt-green text-xl mt-1"></i>
+                    <div>
+                        <h4 class="font-bold text-lg text-gray-800 dark:text-white"><span class="lang-km">ថត Street View</span><span class="lang-en hidden">Capture Street View</span></h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400"><span class="lang-km">បំពេញបន្ថែមតំបន់ដែលខ្វះខាត</span><span class="lang-en hidden">Fill in missing areas</span></p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-check-circle text-teal-600 dark:text-shirt-green text-xl mt-1"></i>
+                    <div>
+                        <h4 class="font-bold text-lg text-gray-800 dark:text-white"><span class="lang-km">កែប្រែព័ត៌មាន</span><span class="lang-en hidden">Fix Map Data</span></h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400"><span class="lang-km">កែឈ្មោះ និងទីតាំងឱ្យត្រឹមត្រូវ</span><span class="lang-en hidden">Correct names and locations</span></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- OBJECTIVES SECTION -->
+    <section id="objectives" class="py-10 container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">គោលបំណងសំខាន់ៗ</span><span class="lang-en hidden">Key Objectives</span></h2>
+            <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- OBJ 1 -->
+            <div class="glass-card p-6 rounded-lg hover:-translate-y-2 transition duration-300">
+                <div class="w-14 h-14 bg-teal-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fas fa-video text-2xl text-teal-600 dark:text-shirt-green"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-3 text-gray-900 dark:text-white"><span class="lang-km">ផលិតវីដេអូរឿងរ៉ាវ</span><span class="lang-en hidden">Storytelling Video</span></h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
+                    <span class="lang-km">ចាប់យកជីវភាពពិតរបស់សហគមន៍អូសោម និងការងារអេកូទេសចរណ៍។</span>
+                    <span class="lang-en hidden">Capture the real life of the Osoam community and eco-tourism work.</span>
+                </p>
+            </div>
+            
+            <!-- OBJ 2 -->
+            <div class="glass-card p-6 rounded-lg hover:-translate-y-2 transition duration-300">
+                <div class="w-14 h-14 bg-teal-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fas fa-map-marked-alt text-2xl text-teal-600 dark:text-shirt-green"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-3 text-gray-900 dark:text-white"><span class="lang-km">កែលម្អផែនទី</span><span class="lang-en hidden">Digital Mapping</span></h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
+                    <span class="lang-km">ធ្វើឱ្យអូសោមក្លាយជាតំបន់ដែលមានព័ត៌មានត្រឹមត្រូវ និងងាយស្រួលស្វែងរកលើ Google Maps។</span>
+                    <span class="lang-en hidden">Make Osoam a region with accurate and easy-to-find information on Google Maps.</span>
+                </p>
+            </div>
+
+            <!-- OBJ 3 -->
+            <div class="glass-card p-6 rounded-lg hover:-translate-y-2 transition duration-300">
+                <div class="w-14 h-14 bg-teal-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fas fa-lightbulb text-2xl text-teal-600 dark:text-shirt-green"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-3 text-gray-900 dark:text-white"><span class="lang-km">អប់រំ និងបំផុសគំនិត</span><span class="lang-en hidden">Education & Inspire</span></h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
+                    <span class="lang-km">បង្ហាញសារៈសំខាន់នៃជីវិតពិត និងការរៀនពីមនុស្សក្នុងតំបន់។</span>
+                    <span class="lang-en hidden">Showcase the importance of real life and learning from locals.</span>
+                </p>
+            </div>
+
+            <!-- OBJ 4 -->
+            <div class="glass-card p-6 rounded-lg hover:-translate-y-2 transition duration-300">
+                <div class="w-14 h-14 bg-teal-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fas fa-database text-2xl text-teal-600 dark:text-shirt-green"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-3 text-gray-900 dark:text-white"><span class="lang-km">ទិន្នន័យអនាគត</span><span class="lang-en hidden">Future Data</span></h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
+                    <span class="lang-km">បង្កើតឯកសារ Travel Guide សម្រាប់អ្នកធ្វើដំណើរជំនាន់ក្រោយ។</span>
+                    <span class="lang-en hidden">Create Travel Guide data for future travelers.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPONSORS SECTION -->
     <section id="sponsors" class="py-20 container mx-auto px-6">
         <div class="glass-card p-10 rounded-xl shadow-xl text-center">
-            <div class="mb-16">
+            <div class="mb-12">
                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white uppercase">
-                    <span class="lang-km">ដៃគូសហការ និងការគាំទ្រ</span>
+                    <span class="lang-km">អ្នកគាំទ្រ និងដៃគូសហការ</span>
+                    <span class="lang-en hidden">Sponsors & Partners</span>
                 </h2>
                 <div class="w-24 h-1 bg-teal-600 dark:bg-shirt-green mx-auto mt-4 rounded"></div>
             </div>
-            <div class="flex flex-col items-center mb-16 text-center">
-                <p class="text-gray-500 dark:text-gray-400 text-sm tracking-wider uppercase mb-4 font-bold"><span class="lang-km">ដៃគូទេសចរណ៍យុទ្ធសាស្ត្រ</span></p>
-                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white brand-font tracking-wider uppercase">Cambodia Tourism Board</h3>
+
+            <!-- Strategic Partner -->
+            <div class="mb-12">
+                <p class="text-teal-600 dark:text-shirt-green text-sm tracking-widest uppercase mb-4 font-bold">Strategic Tourism Partner</p>
+                <div class="inline-block px-8 py-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg">
+                    <h3 class="text-2xl md:text-4xl font-bold text-gray-800 dark:text-white brand-font uppercase">Cambodia Tourism Board</h3>
+                </div>
             </div>
-            <div class="flex flex-wrap justify-center gap-4 text-gray-800 dark:text-white font-bold text-xl md:text-2xl tracking-wide items-center">
-                <span class="px-4 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">BookMeBus</span>
-                <span class="px-4 border-r border-gray-300 dark:border-gray-600 brand-font uppercase">Kofi</span>
-                <span class="px-4 brand-font uppercase">Royal Enfield</span>
+
+            <!-- Co-Sponsors -->
+            <div class="mb-12">
+                <p class="text-gray-500 dark:text-gray-400 text-xs tracking-widest uppercase mb-6 font-bold">Co-Sponsors</p>
+                <div class="flex flex-wrap justify-center gap-6 md:gap-10 items-center">
+                    <div class="group cursor-default">
+                        <span class="text-xl md:text-2xl font-bold text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-shirt-green transition brand-font uppercase">BookMeBus</span>
+                    </div>
+                    <div class="group cursor-default">
+                        <span class="text-xl md:text-2xl font-bold text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-shirt-green transition brand-font uppercase">SombokIT</span>
+                    </div>
+                    <div class="group cursor-default">
+                        <span class="text-xl md:text-2xl font-bold text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-shirt-green transition brand-font uppercase">Kofi</span>
+                    </div>
+                    <div class="group cursor-default">
+                        <span class="text-xl md:text-2xl font-bold text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-shirt-green transition brand-font uppercase">Royal Enfield</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- In-Kind & Local -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-gray-200 dark:border-gray-700 pt-8">
+                <div>
+                    <p class="text-gray-500 dark:text-gray-400 text-xs tracking-widest uppercase mb-4 font-bold">In-Kind Sponsors</p>
+                    <div class="flex flex-wrap justify-center gap-4 text-sm font-semibold text-gray-600 dark:text-gray-300">
+                        <span class="bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded">Panasonic Lumix</span>
+                        <span class="bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded">Meike Global</span>
+                        <span class="bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded">Chigee</span>
+                        <span class="bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded">Anagata Type</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-gray-500 dark:text-gray-400 text-xs tracking-widest uppercase mb-4 font-bold">Local Support</p>
+                    <div class="flex flex-wrap justify-center gap-4 text-sm font-semibold text-gray-600 dark:text-gray-300">
+                        <span class="bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 px-4 py-1 rounded border border-teal-100 dark:border-teal-800">SOAM Stay</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <footer id="contact" class="glass-card mt-10 border-t border-gray-200 dark:border-gray-800 pt-16 pb-8">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 brand-font tracking-wide">THE SPIRIT OF OSOAM</h2>
-            <div class="flex justify-center gap-6 mb-12">
-                <a href="#" class="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-red-600 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2 brand-font tracking-wide">THE SPIRIT OF OSOAM</h2>
+            <p class="text-gray-500 dark:text-gray-400 mb-8">Maps: 11° 47' 22.407" N 103° 16' 2.4827" E</p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
+                <div class="text-left">
+                    <p class="font-bold text-gray-900 dark:text-white">Sophat CHY</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Digital Content Creator | Cambodia Local Guide</p>
+                </div>
+                <div class="flex gap-4">
+                    <a href="mailto:sophatchy@gmail.com" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white transition"><i class="fas fa-envelope"></i></a>
+                    <a href="https://t.me/ChySophat" target="_blank" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-blue-500 hover:text-white transition"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-black hover:text-white transition"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-blue-600 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-red-600 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                </div>
             </div>
-            <p class="text-gray-500 dark:text-gray-600 text-xs">© 2025 Sophat CHY.</p>
+            <p class="text-gray-500 dark:text-gray-600 text-xs">© 2025 Sophat CHY. All Rights Reserved.</p>
         </div>
     </footer>
 
