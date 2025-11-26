@@ -554,27 +554,33 @@
     </header>
 
     <!-- HIGHLIGHTS SECTION -->
-    <section class="relative -mt-10 z-20 container mx-auto px-4 reveal">
+    <section id="highlights" class="relative -mt-10 z-20 container mx-auto px-4 reveal">
         <div class="glass-card rounded-xl shadow-2xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-4xl mx-auto transition-colors duration-300 tilt-card">
             <div class="flex flex-col items-center group">
                 <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition">
                     <i class="fas fa-route text-xl text-gray-700 dark:text-white"></i>
                 </div>
-                <h3 class="text-4xl font-bold text-gray-800 dark:text-white brand-font mb-1">4</h3>
+                <h3 class="text-4xl font-bold text-gray-800 dark:text-white brand-font mb-1">
+                    <span id="hl-days">0</span>
+                </h3>
                 <p class="text-gray-500 dark:text-gray-400 text-sm font-bold"><span class="lang-km">ថ្ងៃនៃដំណើរ</span><span class="lang-en hidden">Days Journey</span></p>
             </div>
             <div class="flex flex-col items-center group">
                 <div class="w-12 h-12 rounded-full bg-red-50 dark:bg-moto-red/10 flex items-center justify-center mb-3 group-hover:bg-red-100 dark:group-hover:bg-moto-red/20 transition">
                     <i class="fas fa-mountain text-xl text-moto-red"></i>
                 </div>
-                <h3 class="text-4xl font-bold text-moto-red brand-font mb-1">1500</h3>
+                <h3 class="text-4xl font-bold text-moto-red brand-font mb-1">
+                    <span id="hl-mountain">0</span>
+                </h3>
                 <p class="text-gray-500 dark:text-gray-400 text-sm font-bold"><span class="lang-km">ភ្នំ ១៥០០</span><span class="lang-en hidden">Phnom 1500</span></p>
             </div>
             <div class="flex flex-col items-center group">
                 <div class="w-12 h-12 rounded-full bg-teal-50 dark:bg-shirt-green/10 flex items-center justify-center mb-3 group-hover:bg-teal-100 dark:group-hover:bg-shirt-green/20 transition">
                     <i class="fas fa-street-view text-xl text-teal-600 dark:text-shirt-green"></i>
                 </div>
-                <h3 class="text-4xl font-bold text-teal-600 dark:text-shirt-green brand-font mb-1">360°</h3>
+                <h3 class="text-4xl font-bold text-teal-600 dark:text-shirt-green brand-font mb-1">
+                    <span id="hl-view">0</span>°
+                </h3>
                 <p class="text-gray-500 dark:text-gray-400 text-sm font-bold">Street View</p>
             </div>
         </div>
@@ -967,6 +973,10 @@
                     if (entry.target.id === 'impact') {
                         animateCounters();
                     }
+                    // Trigger highlights animation
+                    if (entry.target.id === 'highlights') {
+                        animateHighlights();
+                    }
                 }
             });
         }, { threshold: 0.1 });
@@ -1041,8 +1051,22 @@
                 { id: 'count-video', end: 2, suffix: '' },
                 { id: 'count-sv-loc', end: 10, suffix: '+' }
             ];
-            
-            counters.forEach(c => {
+            runAnimation(counters);
+        }
+
+        // --- 5.1 HIGHLIGHTS ANIMATION ---
+        function animateHighlights() {
+            const highlights = [
+                { id: 'hl-days', end: 4, suffix: '' },
+                { id: 'hl-mountain', end: 1500, suffix: '' },
+                { id: 'hl-view', end: 360, suffix: '' }
+            ];
+            runAnimation(highlights);
+        }
+
+        // Generic Animation Runner
+        function runAnimation(items) {
+            items.forEach(c => {
                 const el = document.getElementById(c.id);
                 if(!el || el.classList.contains('counted')) return;
                 
@@ -1051,13 +1075,17 @@
                 const duration = 2000; // 2s
                 const step = Math.ceil(c.end / (duration / 16));
                 
+                // Special handling for small numbers like 4 to make it animate slower visually
+                const actualStep = c.end < 10 ? 0.1 : step; 
+                let current = 0;
+
                 const timer = setInterval(() => {
-                    start += step;
-                    if(start >= c.end) {
+                    current += actualStep;
+                    if(current >= c.end) {
                         el.textContent = c.end + c.suffix;
                         clearInterval(timer);
                     } else {
-                        el.textContent = start + c.suffix;
+                        el.textContent = Math.floor(current) + c.suffix;
                     }
                 }, 16);
             });
