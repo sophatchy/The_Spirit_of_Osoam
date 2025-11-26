@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="km" class="dark">
+<html lang="km" class="light"> <!-- Default to Light, JS will handle the cycle -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +9,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700;800&family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* Apply Kantumruy Pro to everything */
-        body, h1, h2, h3, h4, p, a, span, div, button { 
+        /* --- SMOOTH TRANSITIONS --- */
+        body, h1, h2, h3, h4, p, a, span, div, button, nav, footer { 
             font-family: 'Kantumruy Pro', sans-serif; 
-            transition: background-color 1s ease, color 1s ease, border-color 1s ease; /* Smooth Theme Transition */
+            transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, fill 1.5s ease, stroke 1.5s ease;
         }
         
         .brand-font { font-family: 'Rajdhani', sans-serif; }
@@ -28,7 +28,7 @@
         ::-webkit-scrollbar-track { background: #0f1c3f; }
         ::-webkit-scrollbar-thumb { background: #00ffc2; border-radius: 4px; }
 
-        /* --- GLOBAL BACKGROUND --- */
+        /* --- GLOBAL BACKGROUND ANIMATION --- */
         #global-bg {
             position: fixed;
             top: 0;
@@ -38,19 +38,19 @@
             z-index: -1;
             background-size: 400px; 
             animation: moveMap 120s linear infinite;
-            transition: background-image 1s, background-color 1s;
+            transition: background-image 1.5s, background-color 1.5s;
         }
 
-        /* DARK MODE BACKGROUND */
+        /* DARK MODE PATTERN (Night) */
         html.dark #global-bg {
-            background-color: #0f1c3f; /* Deep Navy */
-            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid-dark' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3C!-- Teal Lines --%3E%3Cpath d='M0 20 C40 10 60 50 100 40 C140 30 160 70 200 60' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 60 C30 50 70 90 100 80 C130 70 170 110 200 100' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 100 C50 90 50 130 100 120 C150 110 150 150 200 140' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 140 C40 130 60 170 100 160 C140 150 160 190 200 180' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 180 C30 170 70 210 100 200 C130 190 170 230 200 220' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3C!-- White Road --%3E%3Cpath d='M20 0 C20 50 80 50 80 100 C80 150 180 150 180 200' fill='none' stroke='%23ffffff' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.1'/%3E%3Cpath d='M120 0 C120 40 160 60 160 100 C160 140 40 160 40 200' fill='none' stroke='%23ffffff' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid-dark)' /%3E%3C/svg%3E");
+            background-color: #0f1c3f; /* Navy */
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid-dark' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 20 C40 10 60 50 100 40 C140 30 160 70 200 60' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 60 C30 50 70 90 100 80 C130 70 170 110 200 100' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 100 C50 90 50 130 100 120 C150 110 150 150 200 140' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 140 C40 130 60 170 100 160 C140 150 160 190 200 180' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 180 C30 170 70 210 100 200 C130 190 170 230 200 220' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M20 0 C20 50 80 50 80 100 C80 150 180 150 180 200' fill='none' stroke='%23ffffff' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.1'/%3E%3Cpath d='M120 0 C120 40 160 60 160 100 C160 140 40 160 40 200' fill='none' stroke='%23ffffff' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid-dark)' /%3E%3C/svg%3E");
         }
 
-        /* LIGHT MODE BACKGROUND */
+        /* LIGHT MODE PATTERN (Day) */
         html:not(.dark) #global-bg {
-            background-color: #f8fafc; /* White/Slate-50 */
-            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid-light' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3C!-- Grey Lines --%3E%3Cpath d='M0 20 C40 10 60 50 100 40 C140 30 160 70 200 60' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.2'/%3E%3Cpath d='M0 60 C30 50 70 90 100 80 C130 70 170 110 200 100' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.2'/%3E%3Cpath d='M0 100 C50 90 50 130 100 120 C150 110 150 150 200 140' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.2'/%3E%3Cpath d='M0 140 C40 130 60 170 100 160 C140 150 160 190 200 180' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.2'/%3E%3Cpath d='M0 180 C30 170 70 210 100 200 C130 190 170 230 200 220' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.2'/%3E%3C!-- Teal Road --%3E%3Cpath d='M20 0 C20 50 80 50 80 100 C80 150 180 150 180 200' fill='none' stroke='%230f766e' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.15'/%3E%3Cpath d='M120 0 C120 40 160 60 160 100 C160 140 40 160 40 200' fill='none' stroke='%230f766e' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.15'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid-light)' /%3E%3C/svg%3E");
+            background-color: #f0fdfa; /* Very Light Teal */
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid-light' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 20 C40 10 60 50 100 40 C140 30 160 70 200 60' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.3'/%3E%3Cpath d='M0 60 C30 50 70 90 100 80 C130 70 170 110 200 100' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.3'/%3E%3Cpath d='M0 100 C50 90 50 130 100 120 C150 110 150 150 200 140' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.3'/%3E%3Cpath d='M0 140 C40 130 60 170 100 160 C140 150 160 190 200 180' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.3'/%3E%3Cpath d='M0 180 C30 170 70 210 100 200 C130 190 170 230 200 220' fill='none' stroke='%2394a3b8' stroke-width='1' stroke-opacity='0.3'/%3E%3Cpath d='M20 0 C20 50 80 50 80 100 C80 150 180 150 180 200' fill='none' stroke='%230d9488' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.15'/%3E%3Cpath d='M120 0 C120 40 160 60 160 100 C160 140 40 160 40 200' fill='none' stroke='%230d9488' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.15'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid-light)' /%3E%3C/svg%3E");
         }
 
         @keyframes moveMap {
@@ -60,44 +60,45 @@
 
         .hero-overlay {
             background: radial-gradient(circle at center, transparent 10%, #0f1c3f 100%);
-            transition: background 1s;
+            transition: background 1.5s;
         }
         html:not(.dark) .hero-overlay {
-            background: radial-gradient(circle at center, transparent 10%, #f8fafc 100%);
+            background: radial-gradient(circle at center, transparent 10%, #f0fdfa 100%);
         }
 
-        /* --- RESPONSIVE CONTAINER & ANIMATIONS --- */
+        /* --- RESPONSIVE MAP CONTAINER --- */
         .bike-container {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            /* Use viewport height for better scaling on 21:9 and Mobile */
-            height: 50vh; 
-            min-height: 300px; /* Prevent too small on mobile */
-            max-height: 600px;
+            /* Dynamic height based on viewport width to maintain aspect ratio coverage */
+            height: auto;
+            min-height: 40vh; /* Minimum for mobile */
+            max-height: 70vh; /* Maximum for desktop */
             z-index: 20;
             display: flex;
             align-items: flex-end;
+            justify-content: center;
+            pointer-events: none;
         }
 
-        /* SVG Styles */
         .svg-path-container {
             width: 100%;
             height: 100%;
-            /* Ensure it fits fully on screen */
-            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+            /* Ensures the map fits nicely on 21:9 and Mobile without cutting off */
+            overflow: visible;
         }
 
-        /* Text Readability */
+        /* --- TEXT & LINES (Optimized for Mobile Readability) --- */
         .svg-text {
             font-family: 'Kantumruy Pro', sans-serif;
             font-weight: 800;
-            font-size: 20px; /* Increased for mobile */
+            font-size: 28px; /* Larger font for mobile */
             text-anchor: middle;
             fill: white;
             stroke: #0f1c3f;
-            stroke-width: 6px; /* Thicker stroke for readability */
+            stroke-width: 8px; /* Thicker outline */
             paint-order: stroke;
             transition: fill 1s, stroke 1s;
         }
@@ -105,34 +106,39 @@
         html:not(.dark) .svg-text {
             fill: #0f172a;
             stroke: #ffffff;
-            stroke-width: 6px;
+            stroke-width: 8px;
         }
 
         .svg-text-highlight {
             fill: #00ffc2;
-            font-size: 24px; /* Bigger main stop */
+            font-size: 36px; /* Giant font for Osoam */
         }
         html:not(.dark) .svg-text-highlight {
             fill: #0d9488;
         }
 
-        .text-shadow-poster { text-shadow: 2px 2px 4px rgba(0,0,0,0.8); transition: color 1s, text-shadow 1s; }
-        html:not(.dark) .text-shadow-poster { text-shadow: none; color: #0f172a; }
+        .stop-point {
+            r: 12; /* Bigger dots */
+            stroke-width: 5;
+        }
 
-        .hidden { display: none !important; }
-        
+        /* --- GLASS CARDS --- */
         .glass-card {
             background: rgba(15, 28, 63, 0.85);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 255, 194, 0.1);
-            transition: background 1s, border-color 1s, box-shadow 1s;
+            transition: background 1.5s, border-color 1.5s, box-shadow 1.5s;
         }
-        
         html:not(.dark) .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(15, 118, 110, 0.1);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(13, 148, 136, 0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
         }
+
+        .text-shadow-poster { text-shadow: 2px 2px 4px rgba(0,0,0,0.8); transition: color 1s, text-shadow 1s; }
+        html:not(.dark) .text-shadow-poster { text-shadow: none; color: #0f172a; }
+        
+        .hidden { display: none !important; }
     </style>
     
     <script>
@@ -182,9 +188,9 @@
 
     <!-- HERO SECTION -->
     <header class="relative h-screen flex flex-col items-center justify-center overflow-hidden pb-32">
-        <!-- Digital Overlay for Day/Night Effect -->
+        <!-- Digital Overlay -->
         <div class="absolute inset-0 hero-overlay pointer-events-none"></div>
-        
+
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto -mt-10">
             <!-- Badge -->
             <div class="inline-block bg-teal-50 dark:bg-gradient-to-r dark:from-teal-600 dark:to-shirt-green text-teal-800 dark:text-black px-6 py-2 font-bold text-sm tracking-wide mb-6 rounded-full shadow-lg border border-teal-200 dark:border-teal-400">
@@ -211,47 +217,55 @@
         </div>
 
         <!-- RESPONSIVE MOTORBIKE ANIMATION CONTAINER -->
+        <!-- Use a taller viewBox (1200x500) to give curves room on mobile -->
         <div class="bike-container">
-            <!-- ViewBox optimized for wide/short screens -->
-            <svg class="svg-path-container" viewBox="0 0 1200 450" preserveAspectRatio="xMidYMid meet">
+            <svg class="svg-path-container" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid meet">
                 <defs>
-                    <path id="responsiveRidePath" d="M50,350 C150,350 200,300 300,250 C400,200 400,100 500,100 C600,100 600,200 700,200 C800,200 800,350 900,350 C1000,350 1050,350 1150,350" />
+                    <!-- Taller Path for better mobile visual -->
+                    <path id="responsiveRidePath" d="M50,400 C150,400 200,300 300,250 C400,200 400,100 500,100 C600,100 600,250 700,250 C800,250 800,400 900,400 C1000,400 1050,400 1150,400" />
                     <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 
                 <!-- Track Lines -->
-                <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="8" fill="none" class="opacity-50 dark:opacity-100 transition-opacity duration-1000" />
+                <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="10" fill="none" class="opacity-30 dark:opacity-100 transition-opacity duration-1000" />
+                
+                <!-- Day Track (Teal) -->
+                <use xlink:href="#responsiveRidePath" stroke="#0f766e" stroke-width="10" fill="none" stroke-dasharray="20,15" class="dark:hidden" />
+                
+                <!-- Night Track (Neon) -->
+                <use xlink:href="#responsiveRidePath" stroke="#00ffc2" stroke-width="10" fill="none" stroke-dasharray="20,15" class="hidden dark:block">
+                    <animate attributeName="stroke" values="#00ffc2;#00ffc2;#ff0055;#ff0055;#00ffc2" keyTimes="0; 0.6; 0.65; 0.95; 1" dur="20s" repeatCount="indefinite" />
+                </use>
                 
                 <!-- Stops -->
                 <g class="stop-group">
-                    <circle cx="50" cy="350" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
-                    <text x="50" y="400" class="svg-text">ភ្នំពេញ</text>
+                    <circle cx="50" cy="400" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="50" y="450" class="svg-text">ភ្នំពេញ</text>
                     
-                    <circle cx="300" cy="250" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
+                    <circle cx="300" cy="250" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
                     <text x="300" y="290" class="svg-text">ពោធិ៍សាត</text>
                     
-                    <circle cx="500" cy="100" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
-                    <text x="500" y="80" class="svg-text">វាលវែង (១៥០០)</text>
+                    <circle cx="500" cy="100" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="500" y="80" class="svg-text">វាលវែង</text>
                     
-                    <circle cx="700" cy="200" r="15" fill="#0f1c3f" stroke="#00ffc2" stroke-width="5" />
-                    <text x="700" y="250" class="svg-text svg-text-highlight">អូសោម</text>
+                    <circle cx="700" cy="250" r="20" fill="#0f1c3f" stroke="#00ffc2" stroke-width="6" />
+                    <text x="700" y="310" class="svg-text svg-text-highlight">អូសោម</text>
                     
-                    <circle cx="900" cy="350" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
-                    <text x="900" y="400" class="svg-text">កោះកុង</text>
+                    <circle cx="900" cy="400" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="900" y="450" class="svg-text">កោះកុង</text>
                     
-                    <circle cx="1150" cy="350" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
-                    <text x="1150" y="400" class="svg-text">ភ្នំពេញ</text>
+                    <circle cx="1150" cy="400" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="1150" y="450" class="svg-text">ភ្នំពេញ</text>
                 </g>
 
-                <!-- THE SUN/MOON (Follows Bike, Changes Color) -->
+                <!-- THE SUN/MOON (Follows Bike) -->
                 <g>
-                    <circle r="30" filter="url(#glow)">
+                    <circle r="35" filter="url(#glow)">
                         <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
                             <mpath xlink:href="#responsiveRidePath" />
                         </animateMotion>
-                        <!-- Color Animation: Yellow(Day) -> Orange(Sunset) -> White(Moon) -> Hide -> Yellow -->
-                        <animate attributeName="fill" values="#fbbf24; #f59e0b; #ff4500; #e2e8f0; #e2e8f0; #fbbf24" keyTimes="0; 0.4; 0.55; 0.65; 0.95; 1" dur="20s" repeatCount="indefinite" />
-                        <!-- Lift Sun higher -->
+                        <!-- Color: Yellow -> Orange -> Red -> Moon -> Yellow -->
+                        <animate attributeName="fill" values="#fbbf24; #f59e0b; #ef4444; #e2e8f0; #e2e8f0; #fbbf24" keyTimes="0; 0.4; 0.55; 0.65; 0.95; 1" dur="20s" repeatCount="indefinite" />
                         <animateTransform attributeName="transform" type="translate" from="0 -80" to="0 -80" dur="20s" repeatCount="indefinite" />
                     </circle>
                 </g>
@@ -260,7 +274,7 @@
                 <g>
                     <foreignObject width="60" height="60" x="-30" y="-30">
                         <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%; color: white;">
-                            <i class="fas fa-motorcycle" style="font-size:35px; color: #0f172a; filter: drop-shadow(0 0 2px white);"></i>
+                            <i class="fas fa-motorcycle" style="font-size:40px; color: #0f172a; filter: drop-shadow(0 0 2px white);"></i>
                         </div>
                     </foreignObject>
                     <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
@@ -271,7 +285,7 @@
         </div>
     </header>
 
-    <!-- Rest of content... -->
+    <!-- SECTIONS -->
     <section class="relative -mt-10 z-20 container mx-auto px-4">
         <div class="glass-card rounded-xl shadow-2xl p-8 grid grid-cols-3 gap-6 text-center max-w-4xl mx-auto transition-colors duration-300">
             <div class="flex flex-col items-center group">
@@ -340,34 +354,32 @@
         </div>
     </footer>
 
-    <!-- Logic Script -->
+    <!-- JAVASCRIPT LOGIC FOR DAY/NIGHT CYCLE -->
     <script>
         const toggleThemeBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const langToggleBtn = document.getElementById('lang-toggle');
-        let isManualOverride = false; // Flag to stop auto-cycle if user clicks manually
+        let isManualOverride = false; // Stops auto-cycle if user manually toggles
 
-        // --- Day/Night Cycle Logic ---
-        // 20s Cycle: 0-12s (Day), 12-20s (Night)
-        // Osoam is at ~60% of the path, so 12 seconds into a 20s animation.
+        // --- Day/Night Cycle Logic (Synced with 20s SVG Animation) ---
         function startDayNightCycle() {
             const cycleDuration = 20000; 
-            const sunsetPoint = 12000; // 12 seconds (Sunset at Osoam)
+            const sunsetPoint = 12000; // 12s = Osoam (Switch to Dark)
             
             const updateCycle = () => {
                 if (isManualOverride) return; // Stop if user clicked toggle
 
                 const now = Date.now();
-                const elapsed = now % cycleDuration; // Keeps loop in sync with 20s animation
+                const elapsed = now % cycleDuration; // Keeps loop in sync
 
                 if (elapsed < sunsetPoint) {
-                    // Day Time (Light Mode)
+                    // Morning/Day (Light Mode)
                     if (document.documentElement.classList.contains('dark')) {
                         document.documentElement.classList.remove('dark');
                         updateThemeIcon(false);
                     }
                 } else {
-                    // Night Time (Dark Mode)
+                    // Night/Sunset (Dark Mode)
                     if (!document.documentElement.classList.contains('dark')) {
                         document.documentElement.classList.add('dark');
                         updateThemeIcon(true);
@@ -378,15 +390,14 @@
             requestAnimationFrame(updateCycle);
         }
 
-        // Initialize
+        // Start the Cycle
         startDayNightCycle();
 
         // --- Manual Theme Toggle ---
         toggleThemeBtn.addEventListener('click', () => {
-            isManualOverride = true; // Disable auto-cycle
+            isManualOverride = true; // User took control
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
-            localStorage.theme = isDark ? 'dark' : 'light';
             updateThemeIcon(isDark);
         });
 
