@@ -70,11 +70,13 @@
         .bike-container {
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: 50%; /* Center strictly */
+            transform: translateX(-50%);
             width: 100%;
+            max-width: 1600px; /* Prevent huge sizing on Ultra-wide screens */
             height: auto;
-            min-height: 40vh; /* Minimum for mobile */
-            max-height: 70vh; /* Maximum for desktop */
+            min-height: 30vh; /* Balanced height for mobile */
+            max-height: 60vh; /* Balanced height for desktop */
             z-index: 20;
             display: flex;
             align-items: flex-end;
@@ -88,15 +90,15 @@
             overflow: visible;
         }
 
-        /* --- TEXT & LINES --- */
+        /* --- TEXT & LINES (Made smaller/thinner) --- */
         .svg-text {
             font-family: 'Kantumruy Pro', sans-serif;
             font-weight: 800;
-            font-size: 28px;
+            font-size: 16px; /* Smaller text size */
             text-anchor: middle;
             fill: white;
             stroke: #0f1c3f;
-            stroke-width: 8px;
+            stroke-width: 4px; /* Thinner outline */
             paint-order: stroke;
             transition: fill 1s, stroke 1s;
         }
@@ -104,12 +106,12 @@
         html:not(.dark) .svg-text {
             fill: #0f172a;
             stroke: #ffffff;
-            stroke-width: 8px;
+            stroke-width: 4px;
         }
 
         .svg-text-highlight {
             fill: #00ffc2;
-            font-size: 36px;
+            font-size: 22px; /* Smaller highlight */
         }
         html:not(.dark) .svg-text-highlight {
             fill: #0d9488;
@@ -119,7 +121,7 @@
         .sun-clock-text {
             font-family: 'Rajdhani', sans-serif;
             font-weight: 800;
-            font-size: 14px;
+            font-size: 10px; /* Smaller clock text */
             text-anchor: middle;
             fill: #0f1c3f;
             stroke: none;
@@ -129,8 +131,8 @@
         }
 
         .stop-point {
-            r: 12;
-            stroke-width: 5;
+            r: 6; /* Smaller dots (was 12) */
+            stroke-width: 3;
         }
 
         /* --- GLASS CARDS --- */
@@ -229,48 +231,49 @@
 
         <!-- RESPONSIVE MOTORBIKE ANIMATION CONTAINER -->
         <div class="bike-container">
-            <svg class="svg-path-container" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid meet">
+            <!-- Used xMidYMax meet to keep map at the bottom and center -->
+            <svg class="svg-path-container" viewBox="0 0 1200 450" preserveAspectRatio="xMidYMax meet">
                 <defs>
-                    <path id="responsiveRidePath" d="M50,400 C150,400 200,300 300,250 C400,200 400,100 500,100 C600,100 600,250 700,250 C800,250 800,400 900,400 C1000,400 1050,400 1150,400" />
+                    <path id="responsiveRidePath" d="M50,380 C150,380 200,300 300,260 C400,220 400,120 500,120 C600,120 600,260 700,260 C800,260 800,380 900,380 C1000,380 1050,380 1150,380" />
                     <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 
-                <!-- Track Lines -->
-                <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="10" fill="none" class="opacity-30 dark:opacity-100 transition-opacity duration-1000" />
+                <!-- Track Lines (Thinner stroke: 5) -->
+                <use xlink:href="#responsiveRidePath" stroke="#1e3a8a" stroke-width="5" fill="none" class="opacity-30 dark:opacity-100 transition-opacity duration-1000" />
                 
                 <!-- Day Track (Teal) -->
-                <use xlink:href="#responsiveRidePath" stroke="#0f766e" stroke-width="10" fill="none" stroke-dasharray="20,15" class="dark:hidden" />
+                <use xlink:href="#responsiveRidePath" stroke="#0f766e" stroke-width="5" fill="none" stroke-dasharray="20,15" class="dark:hidden" />
                 
                 <!-- Night Track (Neon) -->
-                <use xlink:href="#responsiveRidePath" stroke="#00ffc2" stroke-width="10" fill="none" stroke-dasharray="20,15" class="hidden dark:block">
+                <use xlink:href="#responsiveRidePath" stroke="#00ffc2" stroke-width="5" fill="none" stroke-dasharray="20,15" class="hidden dark:block">
                     <animate attributeName="stroke" values="#00ffc2;#00ffc2;#ff0055;#ff0055;#00ffc2" keyTimes="0; 0.6; 0.65; 0.95; 1" dur="20s" repeatCount="indefinite" />
                 </use>
                 
                 <!-- Stops -->
                 <g class="stop-group">
-                    <circle cx="50" cy="400" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="50" y="450" class="svg-text">ភ្នំពេញ</text>
+                    <circle cx="50" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="50" y="420" class="svg-text">ភ្នំពេញ</text>
                     
-                    <circle cx="300" cy="250" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="300" y="290" class="svg-text">ពោធិ៍សាត</text>
+                    <circle cx="300" cy="260" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="300" y="295" class="svg-text">ពោធិ៍សាត</text>
                     
-                    <circle cx="500" cy="100" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="500" y="80" class="svg-text">វាលវែង</text>
+                    <circle cx="500" cy="120" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="500" y="100" class="svg-text">វាលវែង</text>
                     
-                    <circle cx="700" cy="250" r="20" fill="#0f1c3f" stroke="#00ffc2" stroke-width="6" />
-                    <text x="700" y="310" class="svg-text svg-text-highlight">អូសោម</text>
+                    <circle cx="700" cy="260" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
+                    <text x="700" y="300" class="svg-text svg-text-highlight">អូសោម</text>
                     
-                    <circle cx="900" cy="400" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="900" y="450" class="svg-text">កោះកុង</text>
+                    <circle cx="900" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="900" y="420" class="svg-text">កោះកុង</text>
                     
-                    <circle cx="1150" cy="400" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="1150" y="450" class="svg-text">ភ្នំពេញ</text>
+                    <circle cx="1150" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
+                    <text x="1150" y="420" class="svg-text">ភ្នំពេញ</text>
                 </g>
 
-                <!-- THE SUN/MOON + CLOCK (Follows Bike) -->
+                <!-- THE SUN/MOON + CLOCK (Smaller Radius: 25, Closer Offset: -60) -->
                 <g>
                     <!-- Sun/Moon Circle -->
-                    <circle r="35" filter="url(#glow)">
+                    <circle r="25" filter="url(#glow)">
                         <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
                             <mpath xlink:href="#responsiveRidePath" />
                         </animateMotion>
@@ -286,34 +289,34 @@
                                  values="#fbbf24; #fbbf24; #ef4444; #e2e8f0; #e2e8f0; #fbbf24; #fbbf24" 
                                  keyTimes="0; 0.4; 0.5; 0.55; 0.8; 0.85; 1" 
                                  dur="20s" repeatCount="indefinite" />
-                        <animateTransform attributeName="transform" type="translate" from="0 -80" to="0 -80" dur="20s" repeatCount="indefinite" />
+                        <animateTransform attributeName="transform" type="translate" from="0 -60" to="0 -60" dur="20s" repeatCount="indefinite" />
                     </circle>
                     
-                    <!-- Analog Clock Face Inside Sun (Replaces Text) -->
-                    <g transform="translate(0, -80)">
+                    <!-- Analog Clock Face Inside Sun (Scaled down) -->
+                    <g transform="translate(0, -60)">
                          <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
                             <mpath xlink:href="#responsiveRidePath" />
                         </animateMotion>
                         
                         <!-- Clock Background -->
-                        <circle cx="0" cy="0" r="14" fill="rgba(255,255,255,0.9)" stroke="#0f1c3f" stroke-width="1" />
+                        <circle cx="0" cy="0" r="10" fill="rgba(255,255,255,0.9)" stroke="#0f1c3f" stroke-width="1" />
                         
                         <!-- Hour Hand -->
-                        <line id="hour-hand" x1="0" y1="0" x2="0" y2="-7" stroke="#0f1c3f" stroke-width="2.5" stroke-linecap="round" />
+                        <line id="hour-hand" x1="0" y1="0" x2="0" y2="-5" stroke="#0f1c3f" stroke-width="2" stroke-linecap="round" />
                         
                         <!-- Minute Hand -->
-                        <line id="minute-hand" x1="0" y1="0" x2="0" y2="-11" stroke="#d32e26" stroke-width="1.5" stroke-linecap="round" />
+                        <line id="minute-hand" x1="0" y1="0" x2="0" y2="-8" stroke="#d32e26" stroke-width="1" stroke-linecap="round" />
                         
                         <!-- Center Dot -->
-                        <circle cx="0" cy="0" r="1.5" fill="#0f1c3f" />
+                        <circle cx="0" cy="0" r="1" fill="#0f1c3f" />
                     </g>
                 </g>
 
-                <!-- The Rider -->
+                <!-- The Rider (Smaller Size: 40x40) -->
                 <g>
-                    <foreignObject width="60" height="60" x="-30" y="-30">
+                    <foreignObject width="40" height="40" x="-20" y="-20">
                         <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%; color: white;">
-                            <i class="fas fa-motorcycle" style="font-size:40px; color: #0f172a; filter: drop-shadow(0 0 2px white);"></i>
+                            <i class="fas fa-motorcycle" style="font-size:24px; color: #0f172a; filter: drop-shadow(0 0 2px white);"></i>
                         </div>
                     </foreignObject>
                     <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
