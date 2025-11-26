@@ -141,7 +141,7 @@
             width: 100%;
             max-width: 1600px; /* Prevent huge sizing on Ultra-wide screens */
             height: auto;
-            min-height: 30vh; /* Balanced height for mobile */
+            min-height: 35vh; /* Balanced height for mobile */
             max-height: 60vh; /* Balanced height for desktop */
             z-index: 20;
             display: flex;
@@ -160,7 +160,7 @@
         .svg-text {
             font-family: 'Kantumruy Pro', sans-serif;
             font-weight: 800;
-            font-size: 16px; /* Smaller text size */
+            font-size: 16px; /* Default size */
             text-anchor: middle;
             fill: white;
             stroke: #0f1c3f;
@@ -214,6 +214,14 @@
         .stop-point:hover { r: 10; fill: #00ffc2; }
         html:not(.dark) .stop-point:hover { fill: #0d9488; }
 
+        /* --- RESPONSIVE SVG ADJUSTMENTS FOR MOBILE --- */
+        @media (max-width: 768px) {
+            .svg-text { font-size: 32px; stroke-width: 6px; } /* Increase Font size on mobile relative to viewBox */
+            .svg-text-highlight { font-size: 40px; }
+            .stop-point { r: 14; stroke-width: 5; } /* Bigger dots */
+            /* Adjust bike icon size via transform if needed, handled in foreignObject width */
+        }
+
         /* --- TOOLTIP --- */
         #map-tooltip {
             position: absolute;
@@ -241,7 +249,8 @@
             background: rgba(15, 28, 63, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 255, 194, 0.1);
-            transition: background 1.5s, border-color 1.5s, box-shadow 1.5s;
+            transition: background 1.5s, border-color 1.5s, box-shadow 1.5s, transform 0.3s;
+            perspective: 1000px; /* For 3D Tilt */
         }
         html:not(.dark) .glass-card {
             background: rgba(255, 255, 255, 0.9);
@@ -253,7 +262,7 @@
         .reveal {
             opacity: 0;
             transform: translateY(50px);
-            transition: all 1s ease-out;
+            transition: opacity 1s ease-out, transform 1s ease-out;
         }
         .reveal.active {
             opacity: 1;
@@ -286,6 +295,27 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+
+        /* Timeline Styles */
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            border-left: 2px solid #0d9488;
+            padding-bottom: 30px;
+        }
+        html.dark .timeline-item { border-left-color: #00ffc2; }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #0d9488;
+            border: 2px solid white;
+        }
+        html.dark .timeline-dot { background-color: #00ffc2; border-color: #0f1c3f; }
     </style>
     
     <script>
@@ -320,35 +350,61 @@
     <div id="map-tooltip"></div>
 
     <!-- FLOATING ACTION BUTTON -->
-    <a href="https://t.me/ChySophat" target="_blank" class="fab w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg transition duration-300">
+    <a href="https://t.me/SophatCHY" target="_blank" class="fab w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg transition duration-300">
         <i class="fab fa-telegram-plane text-2xl"></i>
     </a>
 
     <!-- NAVIGATION -->
     <nav class="fixed w-full z-50 bg-white/90 dark:bg-shirt-blue/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-1000">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-gray-900 dark:text-white brand-font">
-                Sophat <span class="text-teal-600 dark:text-shirt-green">CHY</span>
-            </a>
-            
-            <div class="flex items-center gap-6">
-                <div class="hidden md:flex space-x-8 text-base font-bold tracking-wide">
-                    <a href="#mission" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
-                    <a href="#impact" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ឥទ្ធិពល</span><span class="lang-en hidden">Impact</span></a>
-                    <a href="#itinerary" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">កាលវិភាគ</span><span class="lang-en hidden">Itinerary</span></a>
-                    <a href="#gear" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ត្រៀមខ្លួន</span><span class="lang-en hidden">Gear</span></a>
-                    <a href="#contact" class="border border-teal-600 dark:border-shirt-green px-4 py-2 rounded text-teal-600 dark:text-shirt-green hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition"><span class="lang-km">ទំនាក់ទំនង</span><span class="lang-en hidden">Contact</span></a>
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold text-gray-900 dark:text-white brand-font">
+                    Sophat <span class="text-teal-600 dark:text-shirt-green">CHY</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-6">
+                    <div class="flex space-x-8 text-base font-bold tracking-wide">
+                        <a href="#mission" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
+                        <a href="#impact" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ឥទ្ធិពល</span><span class="lang-en hidden">Impact</span></a>
+                        <a href="#itinerary" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">កាលវិភាគ</span><span class="lang-en hidden">Itinerary</span></a>
+                        <a href="#gear" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ត្រៀមខ្លួន</span><span class="lang-en hidden">Gear</span></a>
+                        <a href="#contact" class="border border-teal-600 dark:border-shirt-green px-4 py-2 rounded text-teal-600 dark:text-shirt-green hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition"><span class="lang-km">ទំនាក់ទំនង</span><span class="lang-en hidden">Contact</span></a>
+                    </div>
+                    <div class="flex items-center gap-3 border-l border-gray-300 dark:border-gray-700 pl-6">
+                        <button id="sound-toggle" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition" title="Sound of Osoam">
+                            <i class="fas fa-volume-mute text-gray-600 dark:text-gray-400 text-lg"></i>
+                        </button>
+                        <button id="lang-toggle" class="font-bold text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition">EN</button>
+                        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition">
+                            <i id="theme-icon" class="fas fa-moon text-gray-600 dark:text-shirt-green text-lg"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3 border-l border-gray-300 dark:border-gray-700 pl-6">
-                    <!-- Audio Toggle Button (Visual Only) -->
-                    <button id="sound-toggle" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition mr-2" title="Sound of Osoam">
-                        <i class="fas fa-volume-mute text-gray-600 dark:text-gray-400 text-lg"></i>
-                    </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-2xl text-gray-700 dark:text-white">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Content (Hidden by default) -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 bg-gray-100 dark:bg-gray-800 rounded-xl p-4 shadow-lg transition-all duration-300">
+                <div class="flex flex-col space-y-4 text-center font-bold">
+                    <a href="#mission" class="text-gray-700 dark:text-gray-200 hover:text-teal-600" onclick="document.getElementById('mobile-menu').classList.add('hidden')"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
+                    <a href="#impact" class="text-gray-700 dark:text-gray-200 hover:text-teal-600" onclick="document.getElementById('mobile-menu').classList.add('hidden')"><span class="lang-km">ឥទ្ធិពល</span><span class="lang-en hidden">Impact</span></a>
+                    <a href="#itinerary" class="text-gray-700 dark:text-gray-200 hover:text-teal-600" onclick="document.getElementById('mobile-menu').classList.add('hidden')"><span class="lang-km">កាលវិភាគ</span><span class="lang-en hidden">Itinerary</span></a>
+                    <a href="#gear" class="text-gray-700 dark:text-gray-200 hover:text-teal-600" onclick="document.getElementById('mobile-menu').classList.add('hidden')"><span class="lang-km">ត្រៀមខ្លួន</span><span class="lang-en hidden">Gear</span></a>
+                    <a href="#contact" class="text-teal-600 dark:text-shirt-green" onclick="document.getElementById('mobile-menu').classList.add('hidden')"><span class="lang-km">ទំនាក់ទំនង</span><span class="lang-en hidden">Contact</span></a>
                     
-                    <button id="lang-toggle" class="font-bold text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition">EN</button>
-                    <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition">
-                        <i id="theme-icon" class="fas fa-moon text-gray-600 dark:text-shirt-green text-lg"></i>
-                    </button>
+                    <div class="flex justify-center gap-4 pt-4 border-t border-gray-300 dark:border-gray-700">
+                        <button id="mobile-sound-toggle" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white">
+                            <i class="fas fa-volume-mute"></i>
+                        </button>
+                        <button id="mobile-theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white">
+                            <i id="mobile-theme-icon" class="fas fa-moon"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -366,33 +422,33 @@
                 <span class="lang-en hidden">A Journey into the Heart of the Cardamom Mountains</span>
             </div>
             
-            <h1 class="text-4xl md:text-8xl font-bold text-gray-900 dark:text-white mb-4 leading-tight brand-font tracking-tighter dark:drop-shadow-2xl">
+            <h1 class="text-3xl md:text-8xl font-bold text-gray-900 dark:text-white mb-4 leading-tight brand-font tracking-tighter dark:drop-shadow-2xl">
                 THE SPIRIT OF <br>
                 <span class="text-teal-600 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-shirt-green dark:to-teal-200">OSOAM</span>
             </h1>
             
-            <p class="text-lg md:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed font-bold max-w-3xl mx-auto text-shadow-poster">
+            <p class="text-base md:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed font-bold max-w-3xl mx-auto text-shadow-poster">
                 <span class="lang-km">ដំណើរកម្សាន្តរឿងរ៉ាវ និងបេសកកម្មកែលម្អផែនទីឌីជីថល<br>នៅតំបន់អូសោម ខេត្តពោធិ៍សាត់</span>
                 <span class="lang-en hidden">A Storytelling Journey & Digital Mapping Mission<br>in Osoam, Pursat Province</span>
             </p>
 
             <!-- COUNTDOWN TIMER -->
-            <div class="grid grid-cols-4 gap-4 max-w-xl mx-auto mb-10 text-center">
-                <div class="glass-card p-2 rounded-lg">
-                    <span id="days" class="text-2xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
-                    <span class="text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Days</span>
+            <div class="grid grid-cols-4 gap-2 md:gap-4 max-w-xl mx-auto mb-10 text-center">
+                <div class="glass-card p-2 rounded-lg tilt-card">
+                    <span id="days" class="text-xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
+                    <span class="text-[10px] md:text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Days</span>
                 </div>
-                <div class="glass-card p-2 rounded-lg">
-                    <span id="hours" class="text-2xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
-                    <span class="text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Hours</span>
+                <div class="glass-card p-2 rounded-lg tilt-card">
+                    <span id="hours" class="text-xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
+                    <span class="text-[10px] md:text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Hours</span>
                 </div>
-                <div class="glass-card p-2 rounded-lg">
-                    <span id="minutes" class="text-2xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
-                    <span class="text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Min</span>
+                <div class="glass-card p-2 rounded-lg tilt-card">
+                    <span id="minutes" class="text-xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
+                    <span class="text-[10px] md:text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Min</span>
                 </div>
-                <div class="glass-card p-2 rounded-lg">
-                    <span id="seconds" class="text-2xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
-                    <span class="text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Sec</span>
+                <div class="glass-card p-2 rounded-lg tilt-card">
+                    <span id="seconds" class="text-xl md:text-3xl font-bold text-teal-600 dark:text-shirt-green block">00</span>
+                    <span class="text-[10px] md:text-xs uppercase font-bold text-gray-500 dark:text-gray-400">Sec</span>
                 </div>
             </div>
             
@@ -499,7 +555,7 @@
 
     <!-- HIGHLIGHTS SECTION -->
     <section class="relative -mt-10 z-20 container mx-auto px-4 reveal">
-        <div class="glass-card rounded-xl shadow-2xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-4xl mx-auto transition-colors duration-300">
+        <div class="glass-card rounded-xl shadow-2xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-4xl mx-auto transition-colors duration-300 tilt-card">
             <div class="flex flex-col items-center group">
                 <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition">
                     <i class="fas fa-route text-xl text-gray-700 dark:text-white"></i>
@@ -526,7 +582,7 @@
 
     <!-- MISSION / WHY SECTION -->
     <section id="mission" class="py-20 container mx-auto px-6 reveal">
-        <div class="max-w-4xl mx-auto glass-card p-10 rounded-xl shadow-xl">
+        <div class="max-w-4xl mx-auto glass-card p-10 rounded-xl shadow-xl tilt-card">
             <h2 class="text-3xl md:text-5xl font-bold mb-6 border-l-4 border-teal-600 dark:border-shirt-green pl-6 text-gray-900 dark:text-white">
                 <span class="lang-km">មូលហេតុនៃដំណើរនេះ?</span>
                 <span class="lang-en hidden">Why This Journey?</span>
@@ -554,109 +610,133 @@
         </div>
     </section>
 
-    <!-- IMPACT SECTION (NEW) -->
+    <!-- IMPACT SECTION -->
     <section id="impact" class="py-10 container mx-auto px-6 reveal">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">ឥទ្ធិពលនៃបេសកកម្ម</span><span class="lang-en hidden">Mission Impact</span></h2>
             <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition duration-300">
-                <div class="text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-km">0</div>
-                <p class="text-gray-700 dark:text-gray-300 font-bold">គ.ម ផ្លូវដែលត្រូវវាស់វែង</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-center">
+            <div class="glass-card p-4 rounded-xl hover:-translate-y-2 transition duration-300 tilt-card">
+                <div class="text-3xl md:text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-km">0</div>
+                <p class="text-xs md:text-sm text-gray-700 dark:text-gray-300 font-bold">គ.ម ផ្លូវទេសភាព</p>
             </div>
-            <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition duration-300">
-                <div class="text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-img">0</div>
-                <p class="text-gray-700 dark:text-gray-300 font-bold">រូបភាព Street View</p>
+            <div class="glass-card p-4 rounded-xl hover:-translate-y-2 transition duration-300 tilt-card">
+                <div class="text-3xl md:text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-fix">0</div>
+                <p class="text-xs md:text-sm text-gray-700 dark:text-gray-300 font-bold">ជុសជុលផែនទី</p>
             </div>
-            <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition duration-300">
-                <div class="text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-com">0</div>
-                <p class="text-gray-700 dark:text-gray-300 font-bold">សហគមន៍ដែលទទួលបានផល</p>
+            <div class="glass-card p-4 rounded-xl hover:-translate-y-2 transition duration-300 tilt-card">
+                <div class="text-3xl md:text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-photo">0</div>
+                <p class="text-xs md:text-sm text-gray-700 dark:text-gray-300 font-bold">រូបភាពទេសចរណ៍</p>
+            </div>
+            <div class="glass-card p-4 rounded-xl hover:-translate-y-2 transition duration-300 tilt-card">
+                <div class="text-3xl md:text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-video">0</div>
+                <p class="text-xs md:text-sm text-gray-700 dark:text-gray-300 font-bold">វីដេអូឯកសារ</p>
+            </div>
+            <div class="glass-card p-4 rounded-xl hover:-translate-y-2 transition duration-300 col-span-2 md:col-span-1 lg:col-span-1 tilt-card">
+                <div class="text-3xl md:text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-sv-loc">0</div>
+                <p class="text-xs md:text-sm text-gray-700 dark:text-gray-300 font-bold">ទីតាំង Street View</p>
             </div>
         </div>
     </section>
 
-    <!-- ITINERARY (កាលវិភាគ) -->
+    <!-- ITINERARY SECTION (Redesigned as Vertical Timeline) -->
     <section id="itinerary" class="py-20 container mx-auto px-6 reveal">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">កាលវិភាគដំណើរ</span><span class="lang-en hidden">Itinerary</span></h2>
             <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div class="max-w-3xl mx-auto">
             <!-- Day 1 -->
-            <div class="glass-card p-6 rounded-xl border-t-4 border-teal-500 dark:border-shirt-green hover:scale-105 transition duration-300">
-                <div class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10">01</div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">ចេញដំណើរ</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">04 DEC 2025</p>
-                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ភ្នំពេញ -> ពោធិ៍សាត</li>
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>បន្តទៅ វាលវែង</li>
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>បោះជំរុំនៅ វាលវែង</li>
-                </ul>
+            <div class="timeline-item mb-8">
+                <div class="timeline-dot"></div>
+                <div class="glass-card p-6 rounded-xl tilt-card border-l-4 border-teal-500 dark:border-shirt-green">
+                    <span class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10 opacity-50">01</span>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">ចេញដំណើរ</h3>
+                    <p class="text-sm text-teal-600 dark:text-shirt-green mb-3 font-mono font-bold">04 DEC 2025</p>
+                    <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ភ្នំពេញ -> ពោធិ៍សាត</li>
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>បន្តទៅ វាលវែង</li>
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>បោះជំរុំនៅ វាលវែង</li>
+                    </ul>
+                </div>
             </div>
+
             <!-- Day 2 -->
-            <div class="glass-card p-6 rounded-xl border-t-4 border-teal-500 dark:border-shirt-green hover:scale-105 transition duration-300">
-                <div class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10">02</div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">បេះដូងអូសោម</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">05 DEC 2025</p>
-                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ឡើងភ្នំ ១៥០០</li>
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ចូលសហគមន៍អូសោម</li>
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>Mapping Mission</li>
-                </ul>
+            <div class="timeline-item mb-8">
+                <div class="timeline-dot"></div>
+                <div class="glass-card p-6 rounded-xl tilt-card border-l-4 border-teal-500 dark:border-shirt-green">
+                    <span class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10 opacity-50">02</span>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">បេះដូងអូសោម</h3>
+                    <p class="text-sm text-teal-600 dark:text-shirt-green mb-3 font-mono font-bold">05 DEC 2025</p>
+                    <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ឡើងភ្នំ ១៥០០</li>
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ចូលសហគមន៍អូសោម</li>
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>Mapping Mission</li>
+                    </ul>
+                </div>
             </div>
+
             <!-- Day 3 -->
-            <div class="glass-card p-6 rounded-xl border-t-4 border-teal-500 dark:border-shirt-green hover:scale-105 transition duration-300">
-                <div class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10">03</div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">ស្វែងយល់ធម្មជាតិ</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">06 DEC 2025</p>
-                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>រុករកតំបន់ធម្មជាតិ</li>
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ថត Street View បន្ថែម</li>
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ធ្វើដំណើរទៅ កោះកុង</li>
-                </ul>
+            <div class="timeline-item mb-8">
+                <div class="timeline-dot"></div>
+                <div class="glass-card p-6 rounded-xl tilt-card border-l-4 border-teal-500 dark:border-shirt-green">
+                    <span class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10 opacity-50">03</span>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">ស្វែងយល់ធម្មជាតិ</h3>
+                    <p class="text-sm text-teal-600 dark:text-shirt-green mb-3 font-mono font-bold">06 DEC 2025</p>
+                    <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>រុករកតំបន់ធម្មជាតិ</li>
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ថត Street View បន្ថែម</li>
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ធ្វើដំណើរទៅ កោះកុង</li>
+                    </ul>
+                </div>
             </div>
+
             <!-- Day 4 -->
-            <div class="glass-card p-6 rounded-xl border-t-4 border-teal-500 dark:border-shirt-green hover:scale-105 transition duration-300">
-                <div class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10">04</div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">ត្រឡប់វិញ</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">07 DEC 2025</p>
-                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>កោះកុង -> ភ្នំពេញ</li>
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ចែករំលែកទិន្នន័យ</li>
-                    <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>បញ្ចប់បេសកកម្ម</li>
-                </ul>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="glass-card p-6 rounded-xl tilt-card border-l-4 border-teal-500 dark:border-shirt-green">
+                    <span class="text-5xl font-bold text-gray-200 dark:text-gray-700 absolute top-4 right-4 -z-10 opacity-50">04</span>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">ត្រឡប់វិញ</h3>
+                    <p class="text-sm text-teal-600 dark:text-shirt-green mb-3 font-mono font-bold">07 DEC 2025</p>
+                    <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>កោះកុង -> ភ្នំពេញ</li>
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>ចែករំលែកទិន្នន័យ</li>
+                        <li><i class="fas fa-circle text-[8px] mr-2 text-teal-500"></i>បញ្ចប់បេសកកម្ម</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- NEW SECTION: GEAR (ការត្រៀមខ្លួន) -->
+    <!-- GEAR SECTION -->
     <section id="gear" class="py-20 container mx-auto px-6 reveal">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">ការត្រៀមខ្លួន</span><span class="lang-en hidden">Preparation</span></h2>
             <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
         </div>
         <div class="flex flex-wrap justify-center gap-8 text-center">
-            <div class="flex flex-col items-center">
-                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green">
+            <div class="flex flex-col items-center tilt-card p-4 rounded-lg">
+                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green shadow-md">
                     <i class="fas fa-camera text-2xl"></i>
                 </div>
                 <span class="text-sm font-bold text-gray-700 dark:text-gray-300">Camera</span>
             </div>
-            <div class="flex flex-col items-center">
-                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green">
+            <div class="flex flex-col items-center tilt-card p-4 rounded-lg">
+                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green shadow-md">
                     <i class="fas fa-hiking text-2xl"></i>
                 </div>
                 <span class="text-sm font-bold text-gray-700 dark:text-gray-300">Hiking Boots</span>
             </div>
-            <div class="flex flex-col items-center">
-                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green">
+            <div class="flex flex-col items-center tilt-card p-4 rounded-lg">
+                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green shadow-md">
                     <i class="fas fa-tshirt text-2xl"></i>
                 </div>
                 <span class="text-sm font-bold text-gray-700 dark:text-gray-300">Jacket</span>
             </div>
-            <div class="flex flex-col items-center">
-                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green">
+            <div class="flex flex-col items-center tilt-card p-4 rounded-lg">
+                <div class="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 text-teal-600 dark:text-shirt-green shadow-md">
                     <i class="fas fa-battery-full text-2xl"></i>
                 </div>
                 <span class="text-sm font-bold text-gray-700 dark:text-gray-300">Power Bank</span>
@@ -664,7 +744,7 @@
         </div>
     </section>
 
-    <!-- NEW SECTION: FAQ (សំណួរដែលសួរញឹកញាប់) -->
+    <!-- FAQ SECTION -->
     <section id="faq" class="py-20 container mx-auto px-6 reveal">
         <div class="max-w-2xl mx-auto">
             <div class="text-center mb-12">
@@ -672,21 +752,21 @@
                 <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
             </div>
             <div class="space-y-4">
-                <details class="glass-card p-4 rounded-lg group">
+                <details class="glass-card p-4 rounded-lg group tilt-card">
                     <summary class="font-bold text-gray-900 dark:text-white flex justify-between items-center">
                         <span>តើផ្លូវពិបាកជិះដែរឬទេ?</span>
                         <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
                     </summary>
                     <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">ផ្លូវភាគច្រើនជាផ្លូវកៅស៊ូ ប៉ុន្តែមានផ្លូវគ្រួសក្រហមខ្លះនៅតំបន់ភ្នំ ១៥០០ និងផ្លូវចូលសហគមន៍។ អាចជិះបានទាំងម៉ូតូ និងឡាន។</p>
                 </details>
-                <details class="glass-card p-4 rounded-lg group">
+                <details class="glass-card p-4 rounded-lg group tilt-card">
                     <summary class="font-bold text-gray-900 dark:text-white flex justify-between items-center">
                         <span>តើមានកន្លែងស្នាក់នៅបែបណា?</span>
                         <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
                     </summary>
                     <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">យើងនឹងស្នាក់នៅបែប Homestay និងបោះជំរុំ (Camping) ដើម្បីទទួលបានបទពិសោធន៍ធម្មជាតិពិតៗ។</p>
                 </details>
-                <details class="glass-card p-4 rounded-lg group">
+                <details class="glass-card p-4 rounded-lg group tilt-card">
                     <summary class="font-bold text-gray-900 dark:text-white flex justify-between items-center">
                         <span>តើត្រូវចុះឈ្មោះយ៉ាងដូចម្តេច?</span>
                         <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
@@ -711,7 +791,7 @@
             <!-- Strategic Partner -->
             <div class="mb-12">
                 <p class="text-teal-600 dark:text-shirt-green text-sm tracking-widest uppercase mb-4 font-bold">Strategic Tourism Partner</p>
-                <div class="inline-block px-8 py-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg">
+                <div class="inline-block px-8 py-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg tilt-card">
                     <h3 class="text-2xl md:text-4xl font-bold text-gray-800 dark:text-white brand-font uppercase">Cambodia Tourism Board</h3>
                 </div>
             </div>
@@ -759,23 +839,50 @@
     <footer id="contact" class="glass-card mt-10 border-t border-gray-200 dark:border-gray-800 pt-16 pb-8 reveal">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2 brand-font tracking-wide">THE SPIRIT OF OSOAM</h2>
-            <p class="text-gray-500 dark:text-gray-400 mb-8">
-                <a href="https://www.google.com/maps/search/?api=1&query=11.7895575,103.2673563" target="_blank" class="hover:text-teal-500 transition flex items-center justify-center gap-2">
-                    <i class="fas fa-map-marker-alt"></i> Maps: 11° 47' 22.407" N 103° 16' 2.4827" E
-                </a>
-            </p>
+            
+            <!-- Embedded Google Map -->
+            <div class="w-full max-w-3xl mx-auto h-64 md:h-80 rounded-xl overflow-hidden shadow-lg mb-8 border border-gray-200 dark:border-gray-700 tilt-card">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3903.765932897646!2d103.2673563!3d11.7895575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTHCsDQ3JzIyLjQiTiAxMDPCsDE2JzAyLjUiRQ!5e0!3m2!1sen!2skh!4v1700000000000!5m2!1sen!2skh" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
             
             <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
                 <div class="text-left">
                     <p class="font-bold text-gray-900 dark:text-white">Sophat CHY</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">Digital Content Creator | Cambodia Local Guide</p>
                 </div>
-                <div class="flex gap-4">
-                    <a href="mailto:sophatchy@gmail.com" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white transition"><i class="fas fa-envelope"></i></a>
-                    <a href="https://t.me/ChySophat" target="_blank" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-blue-500 hover:text-white transition"><i class="fab fa-telegram"></i></a>
-                    <a href="#" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-black hover:text-white transition"><i class="fab fa-tiktok"></i></a>
-                    <a href="#" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-blue-600 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-red-600 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                <div class="flex gap-4 flex-wrap justify-center">
+                    <!-- Email -->
+                    <a href="mailto:sophatchy@gmail.com" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white transition shadow-sm hover:shadow-lg hover:-translate-y-1 duration-300">
+                        <i class="fas fa-envelope text-lg"></i>
+                    </a>
+                    <!-- YouTube -->
+                    <a href="https://youtube.com/sophatchy" target="_blank" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-red-600 hover:text-white transition shadow-sm hover:shadow-lg hover:-translate-y-1 duration-300">
+                        <i class="fab fa-youtube text-lg"></i>
+                    </a>
+                    <!-- TikTok -->
+                    <a href="https://www.tiktok.com/@sophatchy" target="_blank" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-black hover:text-white transition shadow-sm hover:shadow-lg hover:-translate-y-1 duration-300">
+                        <i class="fab fa-tiktok text-lg"></i>
+                    </a>
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/sophatchy" target="_blank" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-pink-600 hover:text-white transition shadow-sm hover:shadow-lg hover:-translate-y-1 duration-300">
+                        <i class="fab fa-instagram text-lg"></i>
+                    </a>
+                    <!-- Telegram -->
+                    <a href="https://t.me/SophatCHY" target="_blank" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-blue-500 hover:text-white transition shadow-sm hover:shadow-lg hover:-translate-y-1 duration-300">
+                        <i class="fab fa-telegram text-lg"></i>
+                    </a>
+                    <!-- Facebook -->
+                    <a href="https://fb.com/SophatCHY" target="_blank" class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-700 dark:text-white hover:bg-blue-600 hover:text-white transition shadow-sm hover:shadow-lg hover:-translate-y-1 duration-300">
+                        <i class="fab fa-facebook-f text-lg"></i>
+                    </a>
                 </div>
             </div>
             <p class="text-gray-500 dark:text-gray-600 text-xs">© 2025 Sophat CHY. All Rights Reserved.</p>
@@ -791,21 +898,35 @@
         const minuteHand = document.getElementById('minute-hand');
         const soundToggleBtn = document.getElementById('sound-toggle');
         
+        // Mobile menu elements
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileSoundToggle = document.getElementById('mobile-sound-toggle');
+        const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+        const mobileThemeIcon = document.getElementById('mobile-theme-icon');
+
+        // Mobile Menu Toggle Logic
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
         let soundEnabled = false;
 
-        soundToggleBtn.addEventListener('click', () => {
+        function toggleSound(icon) {
             soundEnabled = !soundEnabled;
-            const icon = soundToggleBtn.querySelector('i');
             if (soundEnabled) {
                 icon.classList.remove('fa-volume-mute');
                 icon.classList.add('fa-volume-up', 'text-teal-500');
-                // Mock: In a real scenario, you'd play an audio file here
-                // new Audio('forest.mp3').play();
             } else {
                 icon.classList.remove('fa-volume-up', 'text-teal-500');
                 icon.classList.add('fa-volume-mute');
             }
-        });
+        }
+
+        soundToggleBtn.addEventListener('click', () => toggleSound(soundToggleBtn.querySelector('i')));
+        if(mobileSoundToggle) {
+            mobileSoundToggle.addEventListener('click', () => toggleSound(mobileSoundToggle.querySelector('i')));
+        }
 
         // --- 1. PARTICLE SYSTEM (Fireflies / Clouds) ---
         const particleContainer = document.getElementById('particles-container');
@@ -862,7 +983,30 @@
             }
         });
 
-        // --- 3. INTERACTIVE MAP TOOLTIP ---
+        // --- 3. 3D TILT EFFECT ---
+        const tiltCards = document.querySelectorAll('.tilt-card');
+        
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10; // Invert Y for correct tilt
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        });
+
+        // --- 4. INTERACTIVE MAP TOOLTIP ---
         const tooltip = document.getElementById('map-tooltip');
         const mapTriggers = document.querySelectorAll('[data-info]');
 
@@ -888,12 +1032,14 @@
             });
         });
 
-        // --- 3.5 IMPACT COUNTERS ---
+        // --- 5. IMPACT COUNTERS ---
         function animateCounters() {
             const counters = [
-                { id: 'count-km', end: 150, suffix: '+' },
-                { id: 'count-img', end: 500, suffix: '+' },
-                { id: 'count-com', end: 5, suffix: '' }
+                { id: 'count-km', end: 1000, suffix: '+' },
+                { id: 'count-fix', end: 50, suffix: '+' },
+                { id: 'count-photo', end: 10, suffix: '' },
+                { id: 'count-video', end: 2, suffix: '' },
+                { id: 'count-sv-loc', end: 10, suffix: '+' }
             ];
             
             counters.forEach(c => {
@@ -917,7 +1063,7 @@
             });
         }
 
-        // --- 4. COUNTDOWN TIMER ---
+        // --- 6. COUNTDOWN TIMER ---
         const targetDate = new Date("December 4, 2025 00:00:00").getTime();
         
         function updateCountdown() {
@@ -946,7 +1092,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown(); // Initial call
 
-        // --- 5. DAY/NIGHT & CLOCK LOGIC ---
+        // --- 7. DAY/NIGHT & CLOCK LOGIC ---
         let isManualOverride = false;
         
         function startDayNightCycle() {
@@ -997,17 +1143,29 @@
 
         startDayNightCycle();
 
-        toggleThemeBtn.addEventListener('click', () => {
+        function toggleTheme() {
             isManualOverride = true;
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
             updateThemeIcon(isDark);
-        });
+        }
+
+        toggleThemeBtn.addEventListener('click', toggleTheme);
+        if(mobileThemeToggle) {
+            mobileThemeToggle.addEventListener('click', toggleTheme);
+        }
 
         function updateThemeIcon(isDark) {
-            themeIcon.className = isDark 
-                ? 'fas fa-sun text-yellow-400 text-lg' 
-                : 'fas fa-moon text-gray-600 text-lg';
+            const iconClass = isDark ? 'fa-sun' : 'fa-moon';
+            const colorClass = isDark ? 'text-yellow-400' : 'text-gray-600';
+            
+            // Desktop Icon
+            themeIcon.className = `fas ${iconClass} ${colorClass} text-lg`;
+            
+            // Mobile Icon
+            if(mobileThemeIcon) {
+                mobileThemeIcon.className = `fas ${iconClass}`;
+            }
         }
 
         let currentLang = 'km'; 
