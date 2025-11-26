@@ -16,9 +16,9 @@
 
     <style>
         /* --- SMOOTH TRANSITIONS --- */
-        body, h1, h2, h3, h4, p, a, span, div, button, nav, footer { 
+        body, h1, h2, h3, h4, p, a, span, div, button, nav, footer, .mountain-layer { 
             font-family: 'Kantumruy Pro', sans-serif; 
-            transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, fill 1.5s ease, stroke 1.5s ease;
+            transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, fill 1.5s ease, stroke 1.5s ease, opacity 1.5s ease;
         }
         
         .brand-font { font-family: 'Rajdhani', sans-serif; }
@@ -35,7 +35,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: -2;
             background-size: 400px; 
             animation: moveMap 120s linear infinite;
             transition: background-image 1.5s, background-color 1.5s;
@@ -44,7 +44,7 @@
         /* DARK MODE PATTERN (Night) */
         html.dark #global-bg {
             background-color: #0f1c3f; /* Navy */
-            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid-dark' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 20 C40 10 60 50 100 40 C140 30 160 70 200 60' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 60 C30 50 70 90 100 80 C130 70 170 110 200 100' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 100 C50 90 50 130 100 120 C150 110 150 150 200 140' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 140 C40 130 60 170 100 160 C140 150 160 190 200 180' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 180 C30 170 70 210 100 200 C130 190 170 230 200 220' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M20 0 C20 50 80 50 80 100 C80 150 180 150 180 200' fill='none' stroke='%23ffffff' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.1'/%3E%3Cpath d='M120 0 C120 40 160 60 160 100 C160 140 40 160 40 200' fill='none' stroke='%23ffffff' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid-light)' /%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid-dark' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 20 C40 10 60 50 100 40 C140 30 160 70 200 60' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 60 C30 50 70 90 100 80 C130 70 170 110 200 100' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 100 C50 90 50 130 100 120 C150 110 150 150 200 140' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 140 C40 130 60 170 100 160 C140 150 160 190 200 180' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M0 180 C30 170 70 210 100 200 C130 190 170 230 200 220' fill='none' stroke='%2300ffc2' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M20 0 C20 50 80 50 80 100 C80 150 180 150 180 200' fill='none' stroke='%23ffffff' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.1'/%3E%3Cpath d='M120 0 C120 40 160 60 160 100 C160 140 40 160 40 200' fill='none' stroke='%23ffffff' stroke-width='2' stroke-dasharray='5,5' stroke-opacity='0.1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid-dark)' /%3E%3C/svg%3E");
         }
 
         /* LIGHT MODE PATTERN (Day) */
@@ -64,6 +64,70 @@
         }
         html:not(.dark) .hero-overlay {
             background: radial-gradient(circle at center, transparent 10%, #f0fdfa 100%);
+        }
+
+        /* --- FIREFLIES (Night) & CLOUDS (Day) --- */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .firefly {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #00ffc2;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00ffc2;
+            opacity: 0;
+            animation: fly 10s infinite ease-in-out;
+        }
+        html:not(.dark) .firefly { display: none; } /* Hide in day */
+
+        @keyframes fly {
+            0% { transform: translate(0, 0); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translate(100px, -100px); opacity: 0; }
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0;
+            animation: floatCloud 25s infinite linear;
+        }
+        html.dark .cloud { display: none; } /* Hide in night */
+
+        @keyframes floatCloud {
+            0% { transform: translateX(-100%); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateX(100vw); opacity: 0; }
+        }
+
+        /* --- MOUNTAIN SILHOUETTE --- */
+        .mountain-bg {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: 1;
+            pointer-events: none;
+            fill: #0f1c3f;
+            opacity: 0.3;
+        }
+        html:not(.dark) .mountain-bg {
+            fill: #0d9488;
+            opacity: 0.1;
         }
 
         /* --- RESPONSIVE MAP CONTAINER --- */
@@ -90,7 +154,7 @@
             overflow: visible;
         }
 
-        /* --- TEXT & LINES (Made smaller/thinner) --- */
+        /* --- TEXT & LINES --- */
         .svg-text {
             font-family: 'Kantumruy Pro', sans-serif;
             font-weight: 800;
@@ -100,9 +164,17 @@
             stroke: #0f1c3f;
             stroke-width: 4px; /* Thinner outline */
             paint-order: stroke;
-            transition: fill 1s, stroke 1s;
+            transition: fill 1s, stroke 1s, font-size 0.3s ease;
+            cursor: pointer;
+            pointer-events: all; /* Make text clickable */
         }
         
+        .svg-text:hover {
+            font-size: 20px;
+            fill: #00ffc2;
+        }
+        html:not(.dark) .svg-text:hover { fill: #0d9488; }
+
         html:not(.dark) .svg-text {
             fill: #0f172a;
             stroke: #ffffff;
@@ -133,9 +205,36 @@
         .stop-point {
             r: 6; /* Smaller dots (was 12) */
             stroke-width: 3;
+            cursor: pointer;
+            pointer-events: all;
+            transition: r 0.3s ease;
+        }
+        .stop-point:hover { r: 10; fill: #00ffc2; }
+        html:not(.dark) .stop-point:hover { fill: #0d9488; }
+
+        /* --- TOOLTIP --- */
+        #map-tooltip {
+            position: absolute;
+            background: rgba(15, 28, 63, 0.95);
+            border: 1px solid #00ffc2;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        html:not(.dark) #map-tooltip {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #0d9488;
+            color: #0f172a;
         }
 
-        /* --- GLASS CARDS --- */
+        /* --- GLASS CARDS & SCROLL REVEAL --- */
         .glass-card {
             background: rgba(15, 28, 63, 0.85);
             backdrop-filter: blur(12px);
@@ -146,6 +245,17 @@
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(13, 148, 136, 0.2);
             box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+        }
+
+        /* Reveal Animation Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .text-shadow-poster { text-shadow: 2px 2px 4px rgba(0,0,0,0.8); transition: color 1s, text-shadow 1s; }
@@ -174,6 +284,16 @@
 <body class="text-gray-800 dark:text-gray-200 antialiased selection:bg-teal-600 dark:selection:bg-shirt-green selection:text-white dark:selection:text-black transition-colors duration-1000">
 
     <div id="global-bg"></div>
+    <!-- Particle Container for Fireflies/Clouds -->
+    <div id="particles-container"></div>
+    
+    <!-- Mountain Background Layer -->
+    <svg class="mountain-bg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+    </svg>
+
+    <!-- Tooltip Element -->
+    <div id="map-tooltip"></div>
 
     <!-- NAVIGATION -->
     <nav class="fixed w-full z-50 bg-white/90 dark:bg-shirt-blue/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-1000">
@@ -204,7 +324,7 @@
         <!-- Digital Overlay -->
         <div class="absolute inset-0 hero-overlay pointer-events-none"></div>
 
-        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto -mt-10">
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto -mt-10 reveal">
             <!-- Badge -->
             <div class="inline-block bg-teal-50 dark:bg-gradient-to-r dark:from-teal-600 dark:to-shirt-green text-teal-800 dark:text-black px-6 py-2 font-bold text-sm tracking-wide mb-6 rounded-full shadow-lg border border-teal-200 dark:border-teal-400">
                 <span class="lang-km">ដំណើរកម្សាន្តទៅកាន់បេះដូងនៃជួរភ្នំក្រវាញ</span>
@@ -250,43 +370,36 @@
                     <animate attributeName="stroke" values="#00ffc2;#00ffc2;#ff0055;#ff0055;#00ffc2" keyTimes="0; 0.6; 0.65; 0.95; 1" dur="20s" repeatCount="indefinite" />
                 </use>
                 
-                <!-- Stops -->
+                <!-- Stops with Interactive Data Attributes -->
                 <g class="stop-group">
-                    <circle cx="50" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="50" y="420" class="svg-text">ភ្នំពេញ</text>
+                    <circle cx="50" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ចំណុចចាប់ផ្តើមនៃការធ្វើដំណើរ" />
+                    <text x="50" y="420" class="svg-text" data-info="រាជធានីភ្នំពេញ">ភ្នំពេញ</text>
                     
-                    <circle cx="300" cy="260" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="300" y="295" class="svg-text">ពោធិ៍សាត</text>
+                    <circle cx="300" cy="260" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ចំណតទី១: សម្រាកញ៉ាំអាហារ" />
+                    <text x="300" y="295" class="svg-text" data-info="ខេត្តពោធិ៍សាត់">ពោធិ៍សាត</text>
                     
                     <!-- Veal Veng Position (Y=220) -->
-                    <circle cx="500" cy="220" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="500" y="200" class="svg-text">វាលវែង</text>
+                    <circle cx="500" cy="220" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ទេសភាពផ្លូវភ្នំ ១៥០០" />
+                    <text x="500" y="200" class="svg-text" data-info="ស្រុកវាលវែង">វាលវែង</text>
                     
-                    <circle cx="700" cy="260" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" />
-                    <text x="700" y="300" class="svg-text svg-text-highlight">អូសោម</text>
+                    <circle cx="700" cy="260" r="10" fill="#0f1c3f" stroke="#00ffc2" stroke-width="4" data-info="បេះដូងនៃជួរភ្នំក្រវាញ (គោលដៅសំខាន់)" />
+                    <text x="700" y="300" class="svg-text svg-text-highlight" data-info="សហគមន៍ទេសចរណ៍អូសោម">អូសោម</text>
                     
-                    <circle cx="900" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="900" y="420" class="svg-text">កោះកុង</text>
+                    <circle cx="900" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="ច្រកចេញទៅកាន់សមុទ្រ" />
+                    <text x="900" y="420" class="svg-text" data-info="ខេត្តកោះកុង">កោះកុង</text>
                     
-                    <circle cx="1150" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" />
-                    <text x="1150" y="420" class="svg-text">ភ្នំពេញ</text>
+                    <circle cx="1150" cy="380" class="stop-point" fill="#0f1c3f" stroke="#00ffc2" data-info="បញ្ចប់ការធ្វើដំណើរ" />
+                    <text x="1150" y="420" class="svg-text" data-info="ត្រឡប់មកភ្នំពេញវិញ">ភ្នំពេញ</text>
                 </g>
 
-                <!-- THE SUN/MOON + CLOCK (Smaller Radius: 25, Closer Offset: -60) -->
+                <!-- THE SUN/MOON + CLOCK -->
                 <g>
                     <!-- Sun/Moon Circle -->
                     <circle r="25" filter="url(#glow)">
                         <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
                             <mpath xlink:href="#responsiveRidePath" />
                         </animateMotion>
-                        <!-- 
-                           Color Animation Cycle (20s Total):
-                           0s  - 9s: Yellow (Day - PP to Veal Veng)
-                           9s  - 10s: Red/Orange (Sunset - Veal Veng to Osoam)
-                           10s - 16s: White/Blue (Moon - Osoam to Koh Kong)
-                           16s - 17s: Yellow (Sunrise - Koh Kong to PP)
-                           17s - 20s: Yellow (Day)
-                        -->
+                        <!-- Color Animation Cycle -->
                         <animate attributeName="fill" 
                                  values="#fbbf24; #fbbf24; #ef4444; #e2e8f0; #e2e8f0; #fbbf24; #fbbf24" 
                                  keyTimes="0; 0.4; 0.5; 0.55; 0.8; 0.85; 1" 
@@ -294,27 +407,19 @@
                         <animateTransform attributeName="transform" type="translate" from="0 -60" to="0 -60" dur="20s" repeatCount="indefinite" />
                     </circle>
                     
-                    <!-- Analog Clock Face Inside Sun (Scaled down) -->
+                    <!-- Analog Clock Face Inside Sun -->
                     <g transform="translate(0, -60)">
                          <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
                             <mpath xlink:href="#responsiveRidePath" />
                         </animateMotion>
-                        
-                        <!-- Clock Background -->
                         <circle cx="0" cy="0" r="10" fill="rgba(255,255,255,0.9)" stroke="#0f1c3f" stroke-width="1" />
-                        
-                        <!-- Hour Hand -->
                         <line id="hour-hand" x1="0" y1="0" x2="0" y2="-5" stroke="#0f1c3f" stroke-width="2" stroke-linecap="round" />
-                        
-                        <!-- Minute Hand -->
                         <line id="minute-hand" x1="0" y1="0" x2="0" y2="-8" stroke="#d32e26" stroke-width="1" stroke-linecap="round" />
-                        
-                        <!-- Center Dot -->
                         <circle cx="0" cy="0" r="1" fill="#0f1c3f" />
                     </g>
                 </g>
 
-                <!-- The Rider (Smaller Size: 40x40) -->
+                <!-- The Rider -->
                 <g>
                     <foreignObject width="40" height="40" x="-20" y="-20">
                         <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%; color: white;">
@@ -330,7 +435,7 @@
     </header>
 
     <!-- HIGHLIGHTS SECTION -->
-    <section class="relative -mt-10 z-20 container mx-auto px-4">
+    <section class="relative -mt-10 z-20 container mx-auto px-4 reveal">
         <div class="glass-card rounded-xl shadow-2xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-4xl mx-auto transition-colors duration-300">
             <div class="flex flex-col items-center group">
                 <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition">
@@ -357,7 +462,7 @@
     </section>
 
     <!-- MISSION / WHY SECTION -->
-    <section id="mission" class="py-20 container mx-auto px-6">
+    <section id="mission" class="py-20 container mx-auto px-6 reveal">
         <div class="max-w-4xl mx-auto glass-card p-10 rounded-xl shadow-xl">
             <h2 class="text-3xl md:text-5xl font-bold mb-6 border-l-4 border-teal-600 dark:border-shirt-green pl-6 text-gray-900 dark:text-white">
                 <span class="lang-km">មូលហេតុនៃដំណើរនេះ?</span>
@@ -387,7 +492,7 @@
     </section>
 
     <!-- OBJECTIVES SECTION -->
-    <section id="objectives" class="py-10 container mx-auto px-6">
+    <section id="objectives" class="py-10 container mx-auto px-6 reveal">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">គោលបំណងសំខាន់ៗ</span><span class="lang-en hidden">Key Objectives</span></h2>
             <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
@@ -445,7 +550,7 @@
     </section>
 
     <!-- SPONSORS SECTION -->
-    <section id="sponsors" class="py-20 container mx-auto px-6">
+    <section id="sponsors" class="py-20 container mx-auto px-6 reveal">
         <div class="glass-card p-10 rounded-xl shadow-xl text-center">
             <div class="mb-12">
                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white uppercase">
@@ -503,7 +608,7 @@
         </div>
     </section>
 
-    <footer id="contact" class="glass-card mt-10 border-t border-gray-200 dark:border-gray-800 pt-16 pb-8">
+    <footer id="contact" class="glass-card mt-10 border-t border-gray-200 dark:border-gray-800 pt-16 pb-8 reveal">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2 brand-font tracking-wide">THE SPIRIT OF OSOAM</h2>
             <p class="text-gray-500 dark:text-gray-400 mb-8">Maps: 11° 47' 22.407" N 103° 16' 2.4827" E</p>
@@ -525,54 +630,104 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC FOR DAY/NIGHT CYCLE -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         const toggleThemeBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const langToggleBtn = document.getElementById('lang-toggle');
-        
-        // References to Analog Clock Hands
         const hourHand = document.getElementById('hour-hand');
         const minuteHand = document.getElementById('minute-hand');
         
-        let isManualOverride = false; // Stops auto-cycle if user manually toggles
+        // --- 1. PARTICLE SYSTEM (Fireflies / Clouds) ---
+        const particleContainer = document.getElementById('particles-container');
+        
+        function createParticles() {
+            // Create Fireflies (Night)
+            for(let i=0; i<20; i++) {
+                const f = document.createElement('div');
+                f.classList.add('firefly');
+                f.style.left = Math.random() * 100 + 'vw';
+                f.style.top = Math.random() * 100 + 'vh';
+                f.style.animationDelay = Math.random() * 5 + 's';
+                f.style.animationDuration = (8 + Math.random() * 10) + 's';
+                particleContainer.appendChild(f);
+            }
+            // Create Clouds (Day)
+            for(let i=0; i<5; i++) {
+                const c = document.createElement('div');
+                c.classList.add('cloud');
+                c.style.width = (100 + Math.random() * 200) + 'px';
+                c.style.height = (60 + Math.random() * 100) + 'px';
+                c.style.top = (Math.random() * 40) + 'vh'; // Top half
+                c.style.animationDuration = (30 + Math.random() * 20) + 's';
+                c.style.animationDelay = (Math.random() * -20) + 's'; // Start randomly
+                particleContainer.appendChild(c);
+            }
+        }
+        createParticles();
 
-        // --- Day/Night Cycle Logic (Synced with 20s SVG Animation) ---
+        // --- 2. SCROLL REVEAL OBSERVER ---
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // --- 3. INTERACTIVE MAP TOOLTIP ---
+        const tooltip = document.getElementById('map-tooltip');
+        const mapTriggers = document.querySelectorAll('[data-info]');
+
+        document.addEventListener('mousemove', (e) => {
+            // Move tooltip with mouse
+            if(tooltip.style.opacity === '1') {
+                const x = e.clientX + 15;
+                const y = e.clientY + 15;
+                tooltip.style.left = x + 'px';
+                tooltip.style.top = y + 'px';
+            }
+        });
+
+        mapTriggers.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                tooltip.textContent = el.getAttribute('data-info');
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateY(0)';
+            });
+            el.addEventListener('mouseleave', () => {
+                tooltip.style.opacity = '0';
+                tooltip.style.transform = 'translateY(10px)';
+            });
+        });
+
+        // --- 4. DAY/NIGHT & CLOCK LOGIC ---
+        let isManualOverride = false;
+        
         function startDayNightCycle() {
             const cycleDuration = 20000; 
-            
-            // Timeline:
-            // 0s: PP (Start) - Light
-            // 8s: Veal Veng
-            // 9.5s: Sunset Transition Start
-            // 11.6s: Osoam (Must be Dark)
-            // 15s: Koh Kong (Night)
-            // 16.5s: Sunrise Transition Start
-            // 20s: PP (End) - Light
-            
-            const sunsetTime = 9500;   // After Veal Veng (en route to Osoam)
-            const sunriseTime = 16500; // After Koh Kong (en route to PP)
+            const sunsetTime = 9500;   // Veal Veng -> Osoam
+            const sunriseTime = 16500; // Koh Kong -> PP
             
             const updateCycle = () => {
                 const now = Date.now();
-                const elapsed = now % cycleDuration; // Keeps loop in sync
+                const elapsed = now % cycleDuration;
                 
-                // --- Clock Logic (Simulated 24h Cycle) ---
-                // Map 0-20000ms to 06:00 (Day 1) -> 06:00 (Day 2)
-                const totalMinutes = (elapsed / cycleDuration) * 1440; // 1440 mins in 24h
-                let startOffset = 6 * 60; // Start at 06:00 AM
+                // Clock Logic
+                const totalMinutes = (elapsed / cycleDuration) * 1440;
+                let startOffset = 6 * 60; // 06:00 AM
                 let currentMinutes = (startOffset + totalMinutes) % 1440;
                 
                 const hours = Math.floor(currentMinutes / 60);
                 const mins = Math.floor(currentMinutes % 60);
                 
-                // Calculate Angles for Analog Hands
-                // Hour hand: 30 degrees per hour + 0.5 degrees per minute
                 const hourDeg = (hours % 12) * 30 + (mins * 0.5); 
-                // Minute hand: 6 degrees per minute
                 const minDeg = mins * 6;
 
-                // Apply Rotation
                 if (hourHand) hourHand.setAttribute('transform', `rotate(${hourDeg})`);
                 if (minuteHand) minuteHand.setAttribute('transform', `rotate(${minDeg})`);
 
@@ -581,15 +736,13 @@
                      return;
                 }
 
-                // --- Theme Logic ---
+                // Theme Logic
                 if (elapsed >= sunsetTime && elapsed < sunriseTime) {
-                    // NIGHT (Between Veal Veng/Osoam -> Koh Kong/PP)
                     if (!document.documentElement.classList.contains('dark')) {
                         document.documentElement.classList.add('dark');
                         updateThemeIcon(true);
                     }
                 } else {
-                    // DAY (PP -> Veal Veng OR Koh Kong -> PP)
                     if (document.documentElement.classList.contains('dark')) {
                         document.documentElement.classList.remove('dark');
                         updateThemeIcon(false);
@@ -601,12 +754,10 @@
             requestAnimationFrame(updateCycle);
         }
 
-        // Start the Cycle
         startDayNightCycle();
 
-        // --- Manual Theme Toggle ---
         toggleThemeBtn.addEventListener('click', () => {
-            isManualOverride = true; // User took control
+            isManualOverride = true;
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
             updateThemeIcon(isDark);
@@ -618,7 +769,6 @@
                 : 'fas fa-moon text-gray-600 text-lg';
         }
 
-        // Language Logic
         let currentLang = 'km'; 
         langToggleBtn.addEventListener('click', () => {
             currentLang = currentLang === 'km' ? 'en' : 'km';
