@@ -113,7 +113,7 @@
             100% { transform: translateX(100vw); opacity: 0; }
         }
 
-        /* --- MOUNTAIN SILHOUETTE --- */
+        /* --- PARALLAX MOUNTAIN SILHOUETTE --- */
         .mountain-bg {
             position: fixed;
             bottom: 0;
@@ -124,6 +124,8 @@
             pointer-events: none;
             fill: #0f1c3f;
             opacity: 0.3;
+            /* Will be animated by JS on scroll */
+            transition: transform 0.1s ease-out;
         }
         html:not(.dark) .mountain-bg {
             fill: #0d9488;
@@ -309,8 +311,8 @@
     <!-- Particle Container for Fireflies/Clouds -->
     <div id="particles-container"></div>
     
-    <!-- Mountain Background Layer -->
-    <svg class="mountain-bg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+    <!-- Mountain Background Layer (With Parallax ID) -->
+    <svg id="parallax-mountain" class="mountain-bg" viewBox="0 0 1440 320" preserveAspectRatio="none">
         <path fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
     </svg>
 
@@ -332,12 +334,17 @@
             <div class="flex items-center gap-6">
                 <div class="hidden md:flex space-x-8 text-base font-bold tracking-wide">
                     <a href="#mission" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">បេសកកម្ម</span><span class="lang-en hidden">Mission</span></a>
+                    <a href="#impact" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ឥទ្ធិពល</span><span class="lang-en hidden">Impact</span></a>
                     <a href="#itinerary" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">កាលវិភាគ</span><span class="lang-en hidden">Itinerary</span></a>
                     <a href="#gear" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ត្រៀមខ្លួន</span><span class="lang-en hidden">Gear</span></a>
-                    <a href="#sponsors" class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-shirt-green transition"><span class="lang-km">ដៃគូសហការ</span><span class="lang-en hidden">Partners</span></a>
                     <a href="#contact" class="border border-teal-600 dark:border-shirt-green px-4 py-2 rounded text-teal-600 dark:text-shirt-green hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition"><span class="lang-km">ទំនាក់ទំនង</span><span class="lang-en hidden">Contact</span></a>
                 </div>
                 <div class="flex items-center gap-3 border-l border-gray-300 dark:border-gray-700 pl-6">
+                    <!-- Audio Toggle Button (Visual Only) -->
+                    <button id="sound-toggle" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition mr-2" title="Sound of Osoam">
+                        <i class="fas fa-volume-mute text-gray-600 dark:text-gray-400 text-lg"></i>
+                    </button>
+                    
                     <button id="lang-toggle" class="font-bold text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded hover:bg-teal-600 dark:hover:bg-shirt-green hover:text-white dark:hover:text-black transition">EN</button>
                     <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition">
                         <i id="theme-icon" class="fas fa-moon text-gray-600 dark:text-shirt-green text-lg"></i>
@@ -543,6 +550,28 @@
                         <p class="text-sm text-gray-500 dark:text-gray-400"><span class="lang-km">កែឈ្មោះ និងទីតាំងឱ្យត្រឹមត្រូវ</span><span class="lang-en hidden">Correct names and locations</span></p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT SECTION (NEW) -->
+    <section id="impact" class="py-10 container mx-auto px-6 reveal">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2"><span class="lang-km">ឥទ្ធិពលនៃបេសកកម្ម</span><span class="lang-en hidden">Mission Impact</span></h2>
+            <div class="w-20 h-1 bg-teal-600 dark:bg-shirt-green mx-auto rounded"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition duration-300">
+                <div class="text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-km">0</div>
+                <p class="text-gray-700 dark:text-gray-300 font-bold">គ.ម ផ្លូវដែលត្រូវវាស់វែង</p>
+            </div>
+            <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition duration-300">
+                <div class="text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-img">0</div>
+                <p class="text-gray-700 dark:text-gray-300 font-bold">រូបភាព Street View</p>
+            </div>
+            <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition duration-300">
+                <div class="text-4xl font-bold text-teal-600 dark:text-shirt-green mb-2" id="count-com">0</div>
+                <p class="text-gray-700 dark:text-gray-300 font-bold">សហគមន៍ដែលទទួលបានផល</p>
             </div>
         </div>
     </section>
@@ -760,7 +789,24 @@
         const langToggleBtn = document.getElementById('lang-toggle');
         const hourHand = document.getElementById('hour-hand');
         const minuteHand = document.getElementById('minute-hand');
+        const soundToggleBtn = document.getElementById('sound-toggle');
         
+        let soundEnabled = false;
+
+        soundToggleBtn.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            const icon = soundToggleBtn.querySelector('i');
+            if (soundEnabled) {
+                icon.classList.remove('fa-volume-mute');
+                icon.classList.add('fa-volume-up', 'text-teal-500');
+                // Mock: In a real scenario, you'd play an audio file here
+                // new Audio('forest.mp3').play();
+            } else {
+                icon.classList.remove('fa-volume-up', 'text-teal-500');
+                icon.classList.add('fa-volume-mute');
+            }
+        });
+
         // --- 1. PARTICLE SYSTEM (Fireflies / Clouds) ---
         const particleContainer = document.getElementById('particles-container');
         
@@ -796,11 +842,25 @@
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
                     entry.target.classList.add('active');
+                    // Trigger counter animation if it's the impact section
+                    if (entry.target.id === 'impact') {
+                        animateCounters();
+                    }
                 }
             });
         }, { threshold: 0.1 });
 
         revealElements.forEach(el => revealObserver.observe(el));
+
+        // --- 2.5 PARALLAX EFFECT ---
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const mountain = document.getElementById('parallax-mountain');
+            if(mountain) {
+                // Move mountain slower than scroll
+                mountain.style.transform = `translateY(${scrollY * 0.1}px)`;
+            }
+        });
 
         // --- 3. INTERACTIVE MAP TOOLTIP ---
         const tooltip = document.getElementById('map-tooltip');
@@ -827,6 +887,35 @@
                 tooltip.style.transform = 'translateY(10px)';
             });
         });
+
+        // --- 3.5 IMPACT COUNTERS ---
+        function animateCounters() {
+            const counters = [
+                { id: 'count-km', end: 150, suffix: '+' },
+                { id: 'count-img', end: 500, suffix: '+' },
+                { id: 'count-com', end: 5, suffix: '' }
+            ];
+            
+            counters.forEach(c => {
+                const el = document.getElementById(c.id);
+                if(!el || el.classList.contains('counted')) return;
+                
+                el.classList.add('counted');
+                let start = 0;
+                const duration = 2000; // 2s
+                const step = Math.ceil(c.end / (duration / 16));
+                
+                const timer = setInterval(() => {
+                    start += step;
+                    if(start >= c.end) {
+                        el.textContent = c.end + c.suffix;
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = start + c.suffix;
+                    }
+                }, 16);
+            });
+        }
 
         // --- 4. COUNTDOWN TIMER ---
         const targetDate = new Date("December 4, 2025 00:00:00").getTime();
